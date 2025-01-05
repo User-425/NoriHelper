@@ -40,20 +40,17 @@ export function handleKeyword(message, matches) {
       `\x1b[33m[Keyword Detected]\x1b[0m Category: ${category}, Word: ${word}`
     );
     if (category === "lupis") {
-      message.reply("Haloo");
-      // message.reply('<@1120000868335497226> Infoo koleksii :)');
+      message.reply('<@1120000868335497226> Look, there is ', word);
     }
     if (category === "valk") {
       message.reply("\:)");
-      // message.reply('<@331997722305626122> Tuan, ada kartu yang mungkin menarik bagi tuan :)');
+      message.reply('<@331997722305626122> Master, You may want to check this out');
     }
     if (category === "cosmic") {
-      message.reply("<@855862887753842719> Infoo koleksii :)");
+      message.reply('<@855862887753842719> Look, there is ', word);
     }
     if (category === "me" && message.author.id === config.ownerId) {
       message.reply(customMessage);
-    } else if (category === "me") {
-      message.reply("<@855862887753842719> Infoo koleksii :)");
     }
   }
 }
