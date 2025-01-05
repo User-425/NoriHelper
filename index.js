@@ -22,10 +22,10 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', (message) => {
-  if (message.author.id === config.targetBotId) {
-    const keywordInfo = checkForKeywords(message);
-    if (keywordInfo) {
-      handleKeyword(message, keywordInfo);
+  if (message.author.id === config.targetBotId || message.author.id === config.ownerId) {
+    const keywordMatches = checkForKeywords(message);
+    if (keywordMatches.length > 0) {
+      handleKeyword(message, keywordMatches);
     }
   }
 });

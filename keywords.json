@@ -1,18 +1,8 @@
 {
-    "lupis": [
-      "hello",
-      "welcome",
-      "thanks"
-    ],
-    "valk": [
-      "Demon Slayer",
-      "My Hero Academia",
-      "Black Clover",
-      "0"
-    ],
-    "cosmic": [
-      "update",
-      "maintenance",
-      "new feature"
-    ]
+  "lupis": [],
+  "valk": ["Arcane" , "Black Clover" , "Bloons TD 6" , "Death Note" , "Demon Slayer" , "Detective Conan" , "Dr. Stone" , "Fairy Tail" , "Fire Force" , "Lego Ninjago" , "Memes" , "Mobile Legends" , "No Game No Life" , "Record of Ragnarok" , "Sengoku Basara: Samurai Kings" , "Shangri-La Frontier" , "Sword Art Online" , "The Misfit of Demon King Academy" , "The Rising of the Shield Hero" , "World's Strongest Troll"],
+  "cosmic": [],
+  "me": {
+    "Virgo, Introduce yourself!": "Yes Master, I am Valk's personal servant. Nice to meet you! :)"
   }
+}
