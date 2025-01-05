@@ -1,0 +1,17 @@
+{
+    "lupis": [
+      "hello",
+      "welcome",
+      "thanks"
+    ],
+    "valk": [
+      "help",
+      "issue",
+      "problem"
+    ],
+    "cosmic": [
+      "update",
+      "maintenance",
+      "new feature"
+    ]
+  }

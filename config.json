@@ -1,0 +1,5 @@
+{
+    "token": DISCORD_TOKEN,
+    "targetBotId": "742070928111960155",
+    "prefix": "!"
+  }
