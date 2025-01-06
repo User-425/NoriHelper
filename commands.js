@@ -1,18 +1,66 @@
+import Discord from 'discord.js';
 import { addKeyword, removeKeyword, getAllKeywords, getCategoryKeywords, checkForKeywords, handleKeyword } from './keywordHandler.js';
 import { splitMessage, getStats } from './utils.js';
 
-export function handleShowAllList(message, config) {
-  if (message.content.toLowerCase() === `${config.prefix} show all list`) {
-    const keywordList = getAllKeywords();
-    const messageChunks = splitMessage(`📜 **Here are all the keywords:**\n\`\`\`\n${keywordList}\n\`\`\``);
+const ITEMS_PER_PAGE = 15;
 
-    messageChunks.forEach(chunk => {
-      message.reply(chunk);
+function paginate(array, page_size, page_number) {
+  return array.slice((page_number - 1) * page_size, page_number * page_size);
+}
+
+function createPaginationButtons(currentPage, totalPages) {
+  const row = new Discord.ActionRowBuilder()
+    .addComponents(
+      new Discord.ButtonBuilder()
+        .setCustomId('prev')
+        .setLabel('Previous')
+        .setStyle(Discord.ButtonStyle.Primary)
+        .setDisabled(currentPage === 1),
+      new Discord.ButtonBuilder()
+        .setCustomId('next')
+        .setLabel('Next')
+        .setStyle(Discord.ButtonStyle.Primary)
+        .setDisabled(currentPage === totalPages)
+    );
+  return row;
+}
+
+export async function handleShowAllList(message, config) {
+  if (message.content.toLowerCase() === `${config.prefix} show all list`) {
+    const keywordList = getAllKeywords().split('\n');
+    const totalPages = Math.ceil(keywordList.length / ITEMS_PER_PAGE);
+    let currentPage = 1;
+
+    const paginatedKeywords = paginate(keywordList, ITEMS_PER_PAGE, currentPage).join('\n');
+    const row = createPaginationButtons(currentPage, totalPages);
+
+    const sentMessage = await message.reply({
+      content: `📜 **Here are all the keywords (Page ${currentPage}/${totalPages}):**\n\`\`\`\n${paginatedKeywords}\n\`\`\``,
+      components: [row]
+    });
+
+    const filter = i => i.user.id === message.author.id;
+    const collector = sentMessage.createMessageComponentCollector({ filter, time: 60000 });
+
+    collector.on('collect', async i => {
+      if (i.customId === 'prev') {
+        currentPage--;
+      } else if (i.customId === 'next') {
+        currentPage++;
+      }
+
+      const paginatedKeywords = paginate(keywordList, ITEMS_PER_PAGE, currentPage).join('\n');
+      const row = createPaginationButtons(currentPage, totalPages);
+
+      await i.update({
+        content: `📜 **Here are all the keywords (Page ${currentPage}/${totalPages}):**\n\`\`\`\n${paginatedKeywords}\n\`\`\``,
+        components: [row]
+      });
     });
   }
 }
 
-export function handleShowCategoryList(message, config) {
+export async function handleShowCategoryList(message, config) {
   if (message.content.toLowerCase().startsWith(`${config.prefix} show list`)) {
     const args = message.content.split(' ').slice(3);
     const category = args[0];
@@ -23,11 +71,35 @@ export function handleShowCategoryList(message, config) {
     }
 
     try {
-      const keywordList = getCategoryKeywords(category);
-      const messageChunks = splitMessage(`📜 **Here are the keywords for category _${category}_:**\n\`\`\`\n${keywordList}\n\`\`\``);
+      const keywordList = getCategoryKeywords(category).split('\n');
+      const totalPages = Math.ceil(keywordList.length / ITEMS_PER_PAGE);
+      let currentPage = 1;
 
-      messageChunks.forEach(chunk => {
-        message.reply(chunk);
+      const paginatedKeywords = paginate(keywordList, ITEMS_PER_PAGE, currentPage).join('\n');
+      const row = createPaginationButtons(currentPage, totalPages);
+
+      const sentMessage = await message.reply({
+        content: `📜 **Here are the keywords for category _${category}_ (Page ${currentPage}/${totalPages}):**\n\`\`\`\n${paginatedKeywords}\n\`\`\``,
+        components: [row]
+      });
+
+      const filter = i => i.user.id === message.author.id;
+      const collector = sentMessage.createMessageComponentCollector({ filter, time: 60000 });
+
+      collector.on('collect', async i => {
+        if (i.customId === 'prev') {
+          currentPage--;
+        } else if (i.customId === 'next') {
+          currentPage++;
+        }
+
+        const paginatedKeywords = paginate(keywordList, ITEMS_PER_PAGE, currentPage).join('\n');
+        const row = createPaginationButtons(currentPage, totalPages);
+
+        await i.update({
+          content: `📜 **Here are the keywords for category _${category}_ (Page ${currentPage}/${totalPages}):**\n\`\`\`\n${paginatedKeywords}\n\`\`\``,
+          components: [row]
+        });
       });
     } catch (error) {
       message.reply(`❌ ${error.message}`);

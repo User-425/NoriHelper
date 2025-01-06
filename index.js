@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, REST, Routes } from 'discord.js';
+import Discord from 'discord.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -9,11 +9,11 @@ const __dirname = path.dirname(__filename);
 
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8'));
 
-const client = new Client({
+const client = new Discord.Client({
   intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
+    Discord.GatewayIntentBits.Guilds,
+    Discord.GatewayIntentBits.GuildMessages,
+    Discord.GatewayIntentBits.MessageContent,
   ],
 });
 
@@ -41,12 +41,12 @@ client.once('ready', async () => {
     },
   ];
 
-  const rest = new REST({ version: '10' }).setToken(config.token);
+  const rest = new Discord.REST({ version: '10' }).setToken(config.token);
   try {
     console.log('Started refreshing application (/) commands.');
 
     await rest.put(
-      Routes.applicationGuildCommands(client.user.id, config.guildId),
+      Discord.Routes.applicationGuildCommands(client.user.id, config.guildId),
       { body: commands },
     );
 
