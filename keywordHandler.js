@@ -41,7 +41,7 @@ export function getAllKeywords() {
   for (const [category, words] of Object.entries(keywords)) {
     if (category !== 'me') {
       keywordList += `**${category}**:\n`;
-      keywordList += words.map(word => `- ${word}`).join('\n');
+      keywordList += words.map(word => `• ${word}`).join('\n');
       keywordList += '\n\n';
     }
   }
@@ -53,7 +53,7 @@ export function getCategoryKeywords(category) {
     throw new Error(`Category "${category}" does not exist.`);
   }
 
-  return keywords[category].map(word => `- ${word}`).join('\n');
+  return keywords[category].map(word => `• ${word}`).join('\n');
 }
 
 export function handleKeyword(message, matches) {
