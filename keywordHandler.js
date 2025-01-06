@@ -46,7 +46,6 @@ export function handleKeyword(message, matches) {
         message.reply(`<@1120000868335497226> Look, there is ${word}`);
       }
       if (category === "valk") {
-        message.reply(":)");
         message.reply(
           "<@331997722305626122> Master, You may want to check this out"
         );
