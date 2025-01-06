@@ -1,5 +1,5 @@
 import { Client, GatewayIntentBits, REST, Routes } from 'discord.js';
-import { checkForKeywords, handleKeyword } from './keywordHandler.js';
+import { checkForKeywords, handleKeyword, getAllKeywords, addKeyword, removeKeyword } from './keywordHandler.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -66,9 +66,64 @@ client.on('messageCreate', (message) => {
 });
 
 client.on('messageCreate', (message) => {
+  console.log(message.content);
+  if (message.content.startsWith(config.prefix) && message.content.toLowerCase() === `${config.prefix} show all list`) {
+    const keywordList = getAllKeywords();
+    const messageChunks = splitMessage(`Here are all the keywords:\n${keywordList}`);
+
+    messageChunks.forEach(chunk => {
+      message.channel.send(chunk);
+    });
+  }
+});
+
+client.on('messageCreate', (message) => {
+  console.log(message.content);
+  if (message.content.startsWith(config.prefix) && message.content.toLowerCase() === `${config.prefix} hello`) {
+    message.channel.send("Hello!");
+  }
+});
+
+client.on('messageCreate', (message) => {
+  if (message.content.startsWith(config.prefix) && message.content.toLowerCase().startsWith(`${config.prefix} remove keyword`)) {
+    const args = message.content.split(' ').slice(3);
+    const category = args[0];
+    const keyword = args.slice(1).join(' ');
+
+    if (!category || !keyword) {
+      message.channel.send('Please provide a valid category and keyword.');
+      return;
+    }
+
+    try {
+      removeKeyword(category, keyword);
+      message.channel.send(`Keyword "${keyword}" removed from category "${category}".`);
+    } catch (error) {
+      message.channel.send(error.message);
+    }
+  }
+});
+
+client.on('messageCreate', (message) => {
   if (message.content.startsWith(config.prefix) && message.content.toLowerCase() === `${config.prefix}stats`) {
     const stats = getStats();
     message.channel.send(`Bot Statistics:\n${stats}`);
+  }
+});
+
+client.on('messageCreate', (message) => {
+  if (message.content.startsWith(config.prefix) && message.content.toLowerCase().startsWith(`${config.prefix} add keyword`)) {
+    const args = message.content.split(' ').slice(3);
+    const category = args[0];
+    const keyword = args.slice(1).join(' ');
+
+    if (!category || !keyword) {
+      message.channel.send('Please provide a valid category and keyword.');
+      return;
+    }
+
+    addKeyword(category, keyword);
+    message.channel.send(`Keyword "${keyword}" added to category "${category}".`);
   }
 });
 
@@ -108,6 +163,25 @@ function getStats() {
     • Channels: ${client.channels.cache.size}
     • Users: ${client.users.cache.size}
   `;
+}
+
+function splitMessage(message, maxLength = 2000) {
+  const messageChunks = [];
+  let currentChunk = '';
+
+  message.split('\n').forEach(line => {
+    if (currentChunk.length + line.length + 1 > maxLength) {
+      messageChunks.push(currentChunk);
+      currentChunk = '';
+    }
+    currentChunk += line + '\n';
+  });
+
+  if (currentChunk) {
+    messageChunks.push(currentChunk);
+  }
+
+  return messageChunks;
 }
 
 client.login(config.token);

@@ -36,6 +36,42 @@ export function checkForKeywords(message) {
   return matches;
 }
 
+export function getAllKeywords() {
+  let keywordList = '';
+  for (const [category, words] of Object.entries(keywords)) {
+    if (category !== 'me') {
+      keywordList += `**${category}**:\n`;
+      keywordList += words.map(word => `- ${word}`).join('\n');
+      keywordList += '\n\n';
+    }
+  }
+  return keywordList;
+}
+
+export function addKeyword(category, keyword) {
+  if (!keywords[category]) {
+    keywords[category] = [];
+  }
+  keywords[category].push(keyword);
+
+  fs.writeFileSync(path.join(__dirname, 'keywords.json'), JSON.stringify(keywords, null, 2), 'utf8');
+}
+
+export function removeKeyword(category, keyword) {
+  if (!keywords[category]) {
+    throw new Error(`Category "${category}" does not exist.`);
+  }
+
+  const keywordIndex = keywords[category].indexOf(keyword);
+  if (keywordIndex === -1) {
+    throw new Error(`Keyword "${keyword}" does not exist in category "${category}".`);
+  }
+
+  keywords[category].splice(keywordIndex, 1);
+
+  fs.writeFileSync(path.join(__dirname, 'keywords.json'), JSON.stringify(keywords, null, 2), 'utf8');
+}
+
 export function handleKeyword(message, matches) {
   for (const { category, word, customMessage } of matches) {
     console.log(
