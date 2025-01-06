@@ -48,6 +48,14 @@ export function getAllKeywords() {
   return keywordList;
 }
 
+export function getCategoryKeywords(category) {
+  if (!keywords[category]) {
+    throw new Error(`Category "${category}" does not exist.`);
+  }
+
+  return keywords[category].map(word => `- ${word}`).join('\n');
+}
+
 export function handleKeyword(message, matches) {
   for (const { category, word, customMessage } of matches) {
     console.log(

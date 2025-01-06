@@ -1,4 +1,4 @@
-import { addKeyword, removeKeyword, getAllKeywords, checkForKeywords, handleKeyword } from './keywordHandler.js';
+import { addKeyword, removeKeyword, getAllKeywords, getCategoryKeywords, checkForKeywords, handleKeyword } from './keywordHandler.js';
 import { splitMessage, getStats } from './utils.js';
 
 export function handleShowAllList(message, config) {
@@ -9,6 +9,29 @@ export function handleShowAllList(message, config) {
     messageChunks.forEach(chunk => {
       message.channel.send(chunk);
     });
+  }
+}
+
+export function handleShowCategoryList(message, config) {
+  if (message.content.toLowerCase().startsWith(`${config.prefix} show list`)) {
+    const args = message.content.split(' ').slice(3);
+    const category = args[0];
+
+    if (!category) {
+      message.channel.send('Please provide a valid category.');
+      return;
+    }
+
+    try {
+      const keywordList = getCategoryKeywords(category);
+      const messageChunks = splitMessage(`Here are the keywords for category **${category}**:\n${keywordList}`);
+
+      messageChunks.forEach(chunk => {
+        message.channel.send(chunk);
+      });
+    } catch (error) {
+      message.channel.send(error.message);
+    }
   }
 }
 
