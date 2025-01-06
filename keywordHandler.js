@@ -63,12 +63,10 @@ export function handleKeyword(message, matches) {
     );
     if (message.author.id === config.targetBotId) {
       if (category === "lupis") {
-        message.reply(`<@1120000868335497226> Look, there is ${word}`);
+        message.reply(`<@1120000868335497226> Look, there is ${word}!`);
       }
       if (category === "valk") {
-        message.reply(
-          "<@331997722305626122> Master, You may want to check this out"
-        );
+        message.reply("<@331997722305626122> Master, You may want to check this out");
       }
       if (category === "cosmic") {
         message.reply(`<@855862887753842719> Look, there is ${word}`);
@@ -85,6 +83,7 @@ export function addKeyword(category, keyword) {
     keywords[category] = [];
   }
   keywords[category].push(keyword);
+  keywords[category].sort(); // Sort the keywords array
 
   fs.writeFileSync(path.join(__dirname, 'keywords.json'), JSON.stringify(keywords, null, 2), 'utf8');
 }

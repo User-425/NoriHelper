@@ -7,7 +7,7 @@ export function handleShowAllList(message, config) {
     const messageChunks = splitMessage(`📜 **Here are all the keywords:**\n\`\`\`\n${keywordList}\n\`\`\``);
 
     messageChunks.forEach(chunk => {
-      message.channel.send(chunk);
+      message.reply(chunk);
     });
   }
 }
@@ -18,7 +18,7 @@ export function handleShowCategoryList(message, config) {
     const category = args[0];
 
     if (!category) {
-      message.channel.send('❌ Please provide a valid category.');
+      message.reply('❌ Please provide a valid category.');
       return;
     }
 
@@ -27,10 +27,10 @@ export function handleShowCategoryList(message, config) {
       const messageChunks = splitMessage(`📜 **Here are the keywords for category _${category}_:**\n\`\`\`\n${keywordList}\n\`\`\``);
 
       messageChunks.forEach(chunk => {
-        message.channel.send(chunk);
+        message.reply(chunk);
       });
     } catch (error) {
-      message.channel.send(`❌ ${error.message}`);
+      message.reply(`❌ ${error.message}`);
     }
   }
 }
@@ -38,7 +38,7 @@ export function handleShowCategoryList(message, config) {
 export function handleStats(message, config) {
   if (message.content.toLowerCase() === `${config.prefix}stats`) {
     const stats = getStats();
-    message.channel.send(`📊 **Bot Statistics:**\n${stats}`);
+    message.reply(`📊 **Bot Statistics:**\n${stats}`);
   }
 }
 
@@ -49,12 +49,12 @@ export function handleAddKeyword(message, config) {
     const keyword = args.slice(1).join(' ');
 
     if (!category || !keyword) {
-      message.channel.send('❌ Please provide a valid category and keyword.');
+      message.reply('❌ Please provide a valid category and keyword.');
       return;
     }
 
     addKeyword(category, keyword);
-    message.channel.send(`✅ Keyword "${keyword}" added to category "${category}".`);
+    message.reply(`✅ Keyword "${keyword}" added to category "${category}".`);
   }
 }
 
@@ -65,15 +65,15 @@ export function handleRemoveKeyword(message, config) {
     const keyword = args.slice(1).join(' ');
 
     if (!category || !keyword) {
-      message.channel.send('❌ Please provide a valid category and keyword.');
+      message.reply('❌ Please provide a valid category and keyword.');
       return;
     }
 
     try {
       removeKeyword(category, keyword);
-      message.channel.send(`✅ Keyword "${keyword}" removed from category "${category}".`);
+      message.reply(`✅ Keyword "${keyword}" removed from category "${category}".`);
     } catch (error) {
-      message.channel.send(`❌ ${error.message}`);
+      message.reply(`❌ ${error.message}`);
     }
   }
 }
@@ -89,6 +89,6 @@ export function handleKeywords(message, config) {
 
 export function handleHello(message, config) {
   if (message.content.toLowerCase() === `${config.prefix} hello`) {
-    message.channel.send(`👋 Hello, ${message.author}!`);
+    message.reply('👋 Hello!');
   }
 }
