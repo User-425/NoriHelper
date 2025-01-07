@@ -11,13 +11,13 @@ class SeriesCommands {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
     const userEntry = keywords.find(u => u.user === user || u.userid === user);
 
-    if (!userEntry) return `User  not found.`;
+    if (!userEntry) return `User not found.`;
 
     const seriesEntry = userEntry.data.find(s => s.keyword === series);
     if (seriesEntry) {
       seriesEntry.characters = [...new Set([...seriesEntry.characters, ...characters])].sort();
     } else {
-      userEntry.data.push({ keyword: series, characters: characters.sort() });
+      userEntry.data.push({ keyword: series, characters: characters.srt() });
     }
 
     fs.writeFileSync(keywordsPath, JSON.stringify(keywords, null, 2));
@@ -28,7 +28,7 @@ class SeriesCommands {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
     const userEntry = keywords.find(u => u.user === user || u.userid === user);
 
-    if (!userEntry) return `User  not found.`;
+    if (!userEntry) return `User not found.`;
 
     userEntry.data = userEntry.data.filter(s => s.keyword !== series);
     fs.writeFileSync(keywordsPath, JSON.stringify(keywords, null, 2));
@@ -39,7 +39,7 @@ class SeriesCommands {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
     const userEntry = keywords.find(u => u.user === user || u.userid === user);
 
-    if (!userEntry) return `User  not found.`;
+    if (!userEntry) return `User not found.`;
 
     return userEntry.data.map(s => `${s.keyword}: ${s.characters.join(', ') || 'No characters'}`).join('\n') || 'No series found.';
   }

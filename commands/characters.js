@@ -11,7 +11,7 @@ class CharacterCommands {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
     const userEntry = keywords.find(u => u.user === user || u.userid === user);
 
-    if (!userEntry) return `User  not found.`;
+    if (!userEntry) return `User not found.`;
 
     const seriesEntry = userEntry.data.find(s => s.keyword === series);
     if (seriesEntry) {
@@ -28,7 +28,7 @@ class CharacterCommands {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
     const userEntry = keywords.find(u => u.user === user || u.userid === user);
 
-    if (!userEntry) return `User  not found.`;
+    if (!userEntry) return `User not found.`;
 
     const seriesEntry = userEntry.data.find(s => s.keyword === series);
     if (seriesEntry) {
