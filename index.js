@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits } from 'discord.js';
+import { Client, GatewayIntentBits, ActivityType} from 'discord.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -14,6 +14,15 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 
 client.once('ready', () => {
   console.log(`\x1b[32m[Bot Status]\x1b[0m Logged in as ${client.user.tag}`);
+  client.user.setPresence({
+    status: 'online',
+    activities: [
+      {
+        name: 'over Master ❤️',
+        type: ActivityType.Watching,
+      },
+    ],
+  });
 });
 
 client.on('messageCreate', (message) => {
@@ -30,7 +39,7 @@ client.on('messageCreate', (message) => {
             if (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0) {
                 const response = userEntry.userid === config.ownerId
                     ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}!\``
-                    : `<@${userEntry.userid}>, there is ${character} from ${series}!`;
+                    : `<@${userEntry.userid}>, there is ${character} from \`${series}!\``;
                 message.reply(response);
             }
         }
