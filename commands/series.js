@@ -17,7 +17,7 @@ class SeriesCommands {
     if (seriesEntry) {
       seriesEntry.characters = [...new Set([...seriesEntry.characters, ...characters])].sort();
     } else {
-      userEntry.data.push({ keyword: series, characters: characters.srt() });
+      userEntry.data.push({ keyword: series, characters: characters.sort() });
     }
 
     fs.writeFileSync(keywordsPath, JSON.stringify(keywords, null, 2));
@@ -45,4 +45,4 @@ class SeriesCommands {
   }
 }
 
-export { SeriesCommands};
+export { SeriesCommands };

@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, ActivityType} from 'discord.js';
+import { Client, GatewayIntentBits, ActivityType } from 'discord.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -56,13 +56,15 @@ client.on('messageCreate', (message) => {
   const command = args.shift().toLowerCase();
 
   const userId = message.author.id;
+  const user = args[0] === 'me' ? userId : args[0];
+
   switch (command) {
     case 'addseries':
       if (userId !== config.ownerId) {
         message.reply("You don't have permission to use this command.");
         return;
       }
-      const [user, series, ...characters] = args;
+      const [series, ...characters] = args.slice(1);
       const response = SeriesCommands.addSeries(user, series, characters);
       message.reply(response);
       break;
@@ -72,13 +74,13 @@ client.on('messageCreate', (message) => {
         message.reply("You don't have permission to use this command.");
         return;
       }
-      const [delUser , delSeries] = args;
-      const delResponse = SeriesCommands.deleteSeries(delUser , delSeries);
+      const [delSeries] = args.slice(1);
+      const delResponse = SeriesCommands.deleteSeries(user, delSeries);
       message.reply(delResponse);
       break;
 
     case 'listseries':
-      const listResponse = SeriesCommands.listSeries(args[0] || 'me');
+      const listResponse = SeriesCommands.listSeries(user);
       message.reply(listResponse);
       break;
 
@@ -87,8 +89,8 @@ client.on('messageCreate', (message) => {
         message.reply("You don't have permission to use this command.");
         return;
       }
-      const [charUser , charSeries, ...charNames] = args;
-      const addCharResponse = CharacterCommands.addCharacter(charUser , charSeries, charNames);
+      const [charSeries, ...charNames] = args.slice(1);
+      const addCharResponse = CharacterCommands.addCharacter(user, charSeries, charNames);
       message.reply(addCharResponse);
       break;
 
@@ -97,18 +99,18 @@ client.on('messageCreate', (message) => {
         message.reply("You don't have permission to use this command.");
         return;
       }
-      const [delCharUser , delCharSeries, ...delCharNames] = args;
-      const delCharResponse = CharacterCommands.deleteCharacter(delCharUser , delCharSeries, delCharNames);
+      const [delCharSeries, ...delCharNames] = args.slice(1);
+      const delCharResponse = CharacterCommands.deleteCharacter(user, delCharSeries, delCharNames);
       message.reply(delCharResponse);
       break;
 
     case 'listcharacter':
-      const listCharResponse = CharacterCommands.listCharacters(args[0] || 'me', args[1]);
+      const listCharResponse = CharacterCommands.listCharacters(user, args[1]);
       message.reply(listCharResponse);
       break;
 
     case 'listall':
-      const listAllResponse = SeriesCommands.listSeries(args[0] || 'me');
+      const listAllResponse = SeriesCommands.listSeries(user);
       message.reply(listAllResponse);
       break;
 
