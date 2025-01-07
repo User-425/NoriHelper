@@ -17,21 +17,35 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', (message) => {
-  console.log(`\x1b[33m[Message]\x1b[0m ${message.content}`);
-  if (message.author.bot) return;
-  console.log(`\x1b[33m[Author]\x1b[0m ${message.author.tag}`);
+  if (message.author.id === config.targetBotId) {
+    const lines = message.content.split('•').map(line => line.trim());
+    if (lines.length === 5) {
+        const character = lines[3];
+        const series = lines[4];
+        const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
+        const userEntry = keywords.find(u => u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase()));
+        if (userEntry) {
+            const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
+            console.log('\x1b[36m[Bot Message]\x1b[0m', seriesEntry);
+            if (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0) {
+                const response = userEntry.userid === config.ownerId
+                    ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}!\``
+                    : `<@${userEntry.userid}>, there is ${character} from ${series}!`;
+                message.reply(response);
+            }
+        }
+    }
+    return;
+  }
 
   const prefix = config.prefixes.find(p => message.content.toLowerCase().startsWith(p.toLowerCase()));
   if (!prefix) {
-    console.log(`\x1b[31m[No Prefix]\x1b[0m Message does not start with a valid prefix.`);
     return;
   }
-  
-  console.log(`\x1b[32m[Prefix]\x1b[0m ${prefix}`);
+
   const args = message.content.slice(prefix.length).trim().split(/ +/);
   const command = args.shift().toLowerCase();
-  console.log(`\x1b[32m[Command]\x1b[0m ${command}`);
-  
+
   const userId = message.author.id;
   switch (command) {
     case 'addseries':
