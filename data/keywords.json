@@ -285,6 +285,10 @@
     "userid": "331997722305626122",
     "data": [
       {
+        "keyword": "86",
+        "characters": []
+      },
+      {
         "keyword": "Ace Attorney",
         "characters": []
       },
@@ -377,21 +381,17 @@
         "characters": []
       },
       {
-        "keyword": "World's Strongest Troll",
-        "characters": []
-      },
-      {
         "keyword": "World of Warcraft",
         "characters": [
-          "Sylvanas Windrunner",
-          "The Lich King",
-          "Illidan Stormrage",
           "Arthas Menethil",
-          "Jaina Proudmoore"
+          "Illidan Stormrage",
+          "Jaina Proudmoore",
+          "Sylvanas Windrunner",
+          "The Lich King"
         ]
       },
       {
-        "keyword": "86",
+        "keyword": "World's Strongest Troll",
         "characters": []
       }
     ]
