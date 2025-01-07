@@ -29,20 +29,20 @@ client.on('messageCreate', (message) => {
   if (message.author.id === config.targetBotId) {
     const lines = message.content.split('•').map(line => line.trim());
     if (lines.length === 5) {
-        const character = lines[3];
-        const series = lines[4];
-        const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
-        const userEntry = keywords.find(u => u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase()));
-        if (userEntry) {
-            const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
-            console.log('\x1b[36m[Bot Message]\x1b[0m', seriesEntry);
-            if (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0) {
-                const response = userEntry.userid === config.ownerId
-                    ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}!\``
-                    : `<@${userEntry.userid}>, there is ${character} from \`${series}!\``;
-                message.reply(response);
-            }
+      const character = lines[3];
+      const series = lines[4];
+      const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
+      const userEntry = keywords.find(u => u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase()));
+      if (userEntry) {
+        const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
+        console.log('\x1b[36m[Bot Message]\x1b[0m', seriesEntry);
+        if (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0) {
+          const response = userEntry.userid === config.ownerId
+            ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}!\``
+            : `<@${userEntry.userid}>, there is ${character} from \`${series}!\``;
+          message.reply(response);
         }
+      }
     }
     return;
   }
@@ -52,7 +52,7 @@ client.on('messageCreate', (message) => {
     return;
   }
 
-  const args = message.content.slice(prefix.length).trim().split(/ +/);
+  const args = message.content.slice(prefix.length).trim().match(/(?:[^\s"]+|"[^"]*")+/g).map(arg => arg.replace(/(^"|"$)/g, ''));
   const command = args.shift().toLowerCase();
 
   const userId = message.author.id;
