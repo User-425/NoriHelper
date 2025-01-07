@@ -25,9 +25,10 @@ export function checkForKeywords(message) {
         }
       }
     } else {
-      for (const word of words) {
+      for (const wordObj of words) {
+        const word = wordObj.keyword;
         if (lowercaseContent.includes(word.toLowerCase())) {
-          matches.push({ category, word });
+          matches.push({ category, word, characters: wordObj.characters });
         }
       }
     }
@@ -41,7 +42,7 @@ export function getAllKeywords() {
   for (const [category, words] of Object.entries(keywords)) {
     if (category !== 'me') {
       keywordList += `**${category}**:\n`;
-      keywordList += words.map(word => `• ${word}`).join('\n');
+      keywordList += words.map(wordObj => `• ${wordObj.keyword}`).join('\n');
       keywordList += '\n\n';
     }
   }
@@ -53,11 +54,11 @@ export function getCategoryKeywords(category) {
     throw new Error(`Category "${category}" does not exist.`);
   }
 
-  return keywords[category].map(word => `• ${word}`).join('\n');
+  return keywords[category].map(wordObj => `• ${wordObj.keyword}`).join('\n');
 }
 
 export function handleKeyword(message, matches) {
-  for (const { category, word, customMessage } of matches) {
+  for (const { category, word, customMessage, characters } of matches) {
     console.log(
       `\x1b[33m[Keyword Detected]\x1b[0m Category: ${category}, Word: ${word}`
     );
@@ -74,6 +75,9 @@ export function handleKeyword(message, matches) {
     }
     if (category === "me" && message.author.id === config.ownerId) {
       message.reply(customMessage);
+    }
+    if (characters && characters.length > 0) {
+      message.reply(`Characters: ${characters.join(', ')}`);
     }
   }
 }

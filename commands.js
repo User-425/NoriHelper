@@ -159,6 +159,100 @@ export function handleRemoveKeyword(message, config) {
   }
 }
 
+export function handleAddSeries(message, config) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase().startsWith(`${prefix} add series`)) {
+    const args = message.content.split(' ').slice(3);
+    const category = args[0];
+    const keyword = args.slice(1).join(' ');
+
+    if (!category || !keyword) {
+      message.reply('❌ Please provide a valid category and series name.');
+      return;
+    }
+
+    addKeyword(category, { keyword, characters: [] });
+    message.reply(`✅ Series "${keyword}" added to category "${category}".`);
+  }
+}
+
+export function handleRemoveSeries(message, config) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase().startsWith(`${prefix} remove series`)) {
+    const args = message.content.split(' ').slice(3);
+    const category = args[0];
+    const keyword = args.slice(1).join(' ');
+
+    if (!category || !keyword) {
+      message.reply('❌ Please provide a valid category and series name.');
+      return;
+    }
+
+    try {
+      removeKeyword(category, { keyword });
+      message.reply(`✅ Series "${keyword}" removed from category "${category}".`);
+    } catch (error) {
+      message.reply(`❌ ${error.message}`);
+    }
+  }
+}
+
+export function handleAddCharacter(message, config) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase().startsWith(`${prefix} add character`)) {
+    const args = message.content.split(' ').slice(3);
+    const category = args[0];
+    const keyword = args[1];
+    const character = args.slice(2).join(' ');
+
+    if (!category || !keyword || !character) {
+      message.reply('❌ Please provide a valid category, series name, and character name.');
+      return;
+    }
+
+    const series = keywords[category].find(wordObj => wordObj.keyword === keyword);
+    if (!series) {
+      message.reply(`❌ Series "${keyword}" not found in category "${category}".`);
+      return;
+    }
+
+    series.characters.push(character);
+    fs.writeFileSync(path.join(__dirname, 'keywords.json'), JSON.stringify(keywords, null, 2), 'utf8');
+    message.reply(`✅ Character "${character}" added to series "${keyword}" in category "${category}".`);
+  }
+}
+
+export function handleRemoveCharacter(message, config) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase().startsWith(`${prefix} remove character`)) {
+    const args = message.content.split(' ').slice(3);
+    const category = args[0];
+    const keyword = args[1];
+    const character = args.slice(2).join(' ');
+
+    if (!category || !keyword || !character) {
+      message.reply('❌ Please provide a valid category, series name, and character name.');
+      return;
+    }
+
+    const series = keywords[category].find(wordObj => wordObj.keyword === keyword);
+    if (!series) {
+      message.reply(`❌ Series "${keyword}" not found in category "${category}".`);
+      return;
+    }
+
+    const characterIndex = series.characters.indexOf(character);
+    if (characterIndex === -1) {
+      message.reply(`❌ Character "${character}" not found in series "${keyword}".`);
+      return;
+    }
+
+    series.characters.splice(characterIndex, 1);
+    fs.writeFileSync(path.join(__dirname, 'keywords.json'), JSON.stringify(keywords, null, 2), 'utf8');
+    message.reply(`✅ Character "${character}" removed from series "${keyword}" in category "${category}".`);
+  }
+}
+
 export function handleKeywords(message, config) {
   if (message.author.id === config.targetBotId || message.author.id === config.ownerId) {
     const keywordMatches = checkForKeywords(message);
@@ -172,5 +266,25 @@ export function handleHello(message, config) {
   const prefix = getPrefix(message, config.prefixes);
   if (prefix && message.content.toLowerCase() === `${prefix} hello`) {
     message.reply('👋 Hello!');
+  }
+}
+
+export function handleShowCommands(message, config) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase() === `${prefix} show commands`) {
+    const commandsList = `
+      **Available Commands:**
+      • ${prefix} show all list - Show all keywords
+      • ${prefix} show list <category> - Show keywords for a specific category
+      • ${prefix} stats - Show bot statistics
+      • ${prefix} add keyword <category> <keyword> - Add a keyword to a category
+      • ${prefix} remove keyword <category> <keyword> - Remove a keyword from a category
+      • ${prefix} add series <category> <series> - Add a series to a category
+      • ${prefix} remove series <category> <series> - Remove a series from a category
+      • ${prefix} add character <category> <series> <character> - Add a character to a series
+      • ${prefix} remove character <category> <series> <character> - Remove a character from a series
+      • ${prefix} hello - Say hello to the bot
+    `;
+    message.reply(commandsList);
   }
 }
