@@ -25,8 +25,13 @@ function createPaginationButtons(currentPage, totalPages) {
   return row;
 }
 
+function getPrefix(message, prefixes) {
+  return prefixes.find(prefix => message.content.toLowerCase().startsWith(prefix));
+}
+
 export async function handleShowAllList(message, config) {
-  if (message.content.toLowerCase() === `${config.prefix} show all list`) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase() === `${prefix} show all list`) {
     const keywordList = getAllKeywords().split('\n');
     const totalPages = Math.ceil(keywordList.length / ITEMS_PER_PAGE);
     let currentPage = 1;
@@ -61,11 +66,12 @@ export async function handleShowAllList(message, config) {
 }
 
 export async function handleShowCategoryList(message, config) {
-  if (message.content.toLowerCase().startsWith(`${config.prefix} show list`)) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase().startsWith(`${prefix} show list`)) {
     const args = message.content.split(' ').slice(3);
     const category = args[0];
 
-    if (!category) {
+    if (!category || category === "me") {
       message.reply('❌ Please provide a valid category.');
       return;
     }
@@ -108,14 +114,16 @@ export async function handleShowCategoryList(message, config) {
 }
 
 export function handleStats(message, config) {
-  if (message.content.toLowerCase() === `${config.prefix}stats`) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase() === `${prefix}stats`) {
     const stats = getStats();
     message.reply(`📊 **Bot Statistics:**\n${stats}`);
   }
 }
 
 export function handleAddKeyword(message, config) {
-  if (message.content.toLowerCase().startsWith(`${config.prefix} add keyword`)) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase().startsWith(`${prefix} add keyword`)) {
     const args = message.content.split(' ').slice(3);
     const category = args[0];
     const keyword = args.slice(1).join(' ');
@@ -131,7 +139,8 @@ export function handleAddKeyword(message, config) {
 }
 
 export function handleRemoveKeyword(message, config) {
-  if (message.content.toLowerCase().startsWith(`${config.prefix} remove keyword`)) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase().startsWith(`${prefix} remove keyword`)) {
     const args = message.content.split(' ').slice(3);
     const category = args[0];
     const keyword = args.slice(1).join(' ');
@@ -160,7 +169,8 @@ export function handleKeywords(message, config) {
 }
 
 export function handleHello(message, config) {
-  if (message.content.toLowerCase() === `${config.prefix} hello`) {
+  const prefix = getPrefix(message, config.prefixes);
+  if (prefix && message.content.toLowerCase() === `${prefix} hello`) {
     message.reply('👋 Hello!');
   }
 }

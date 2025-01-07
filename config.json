@@ -3,5 +3,5 @@
     "targetBotId": "742070928111960155",
     "ownerId": "YOUR_DISCORD_ID",
     "guildId": "YOUR_GUILD_ID",
-    "prefix": "!"
+    "prefixes": ["virgo,", "v,", "vir,"]
 }
