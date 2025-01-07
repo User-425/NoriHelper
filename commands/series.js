@@ -18,6 +18,7 @@ class SeriesCommands {
       seriesEntry.characters = [...new Set([...seriesEntry.characters, ...characters])].sort();
     } else {
       userEntry.data.push({ keyword: series, characters: characters.sort() });
+      userEntry.data.sort((a, b) => a.keyword.localeCompare(b.keyword));
     }
 
     fs.writeFileSync(keywordsPath, JSON.stringify(keywords, null, 2));
