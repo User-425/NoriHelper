@@ -2,10 +2,10 @@
   "name": "norihelper",
   "version": "1.0.0",
   "description": "just my personal assistant",
-  "main": "index.js",
+  "main": "src/bot.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node src/bot.js"
   },
   "dependencies": {
     "discord.js": "^14.0.0"
