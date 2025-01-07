@@ -2,7 +2,7 @@ import Discord from 'discord.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { handleShowAllList, handleShowCategoryList, handleStats, handleAddKeyword, handleRemoveKeyword, handleKeywords, handleHello, handleAddSeries, handleRemoveSeries, handleAddCharacter, handleRemoveCharacter, handleShowCommands } from './commands.js';
+import { handleShowCategoryList, handleStats, handleKeywords, handleHello, handleAddSeries, handleRemoveSeries, handleAddCharacter, handleRemoveCharacter, handleShowCommands } from './commands.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,11 +58,8 @@ client.once('ready', async () => {
 
 client.on('messageCreate', (message) => {
   handleKeywords(message, config);
-  handleShowAllList(message, config);
   handleShowCategoryList(message, config);
   handleStats(message, config);
-  handleAddKeyword(message, config);
-  handleRemoveKeyword(message, config);
   handleHello(message, config);
   handleAddSeries(message, config);
   handleRemoveSeries(message, config);

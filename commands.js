@@ -1,6 +1,8 @@
 import Discord from 'discord.js';
-import { addKeyword, removeKeyword, getAllKeywords, getCategoryKeywords, checkForKeywords, handleKeyword } from './keywordHandler.js';
+import { getCategoryKeywords, checkForKeywords, handleKeyword, keywords } from './keywordHandler.js';
 import { splitMessage, getStats } from './utils.js';
+import fs from 'fs';
+import path from 'path';
 
 const ITEMS_PER_PAGE = 15;
 
@@ -27,42 +29,6 @@ function createPaginationButtons(currentPage, totalPages) {
 
 function getPrefix(message, prefixes) {
   return prefixes.find(prefix => message.content.toLowerCase().startsWith(prefix));
-}
-
-export async function handleShowAllList(message, config) {
-  const prefix = getPrefix(message, config.prefixes);
-  if (prefix && message.content.toLowerCase() === `${prefix} show all list`) {
-    const keywordList = getAllKeywords().split('\n');
-    const totalPages = Math.ceil(keywordList.length / ITEMS_PER_PAGE);
-    let currentPage = 1;
-
-    const paginatedKeywords = paginate(keywordList, ITEMS_PER_PAGE, currentPage).join('\n');
-    const row = createPaginationButtons(currentPage, totalPages);
-
-    const sentMessage = await message.reply({
-      content: `📜 **Here are all the keywords (Page ${currentPage}/${totalPages}):**\n\`\`\`\n${paginatedKeywords}\n\`\`\``,
-      components: [row]
-    });
-
-    const filter = i => i.user.id === message.author.id;
-    const collector = sentMessage.createMessageComponentCollector({ filter, time: 60000 });
-
-    collector.on('collect', async i => {
-      if (i.customId === 'prev') {
-        currentPage--;
-      } else if (i.customId === 'next') {
-        currentPage++;
-      }
-
-      const paginatedKeywords = paginate(keywordList, ITEMS_PER_PAGE, currentPage).join('\n');
-      const row = createPaginationButtons(currentPage, totalPages);
-
-      await i.update({
-        content: `📜 **Here are all the keywords (Page ${currentPage}/${totalPages}):**\n\`\`\`\n${paginatedKeywords}\n\`\`\``,
-        components: [row]
-      });
-    });
-  }
 }
 
 export async function handleShowCategoryList(message, config) {
@@ -118,44 +84,6 @@ export function handleStats(message, config) {
   if (prefix && message.content.toLowerCase() === `${prefix}stats`) {
     const stats = getStats();
     message.reply(`📊 **Bot Statistics:**\n${stats}`);
-  }
-}
-
-export function handleAddKeyword(message, config) {
-  const prefix = getPrefix(message, config.prefixes);
-  if (prefix && message.content.toLowerCase().startsWith(`${prefix} add keyword`)) {
-    const args = message.content.split(' ').slice(3);
-    const category = args[0];
-    const keyword = args.slice(1).join(' ');
-
-    if (!category || !keyword) {
-      message.reply('❌ Please provide a valid category and keyword.');
-      return;
-    }
-
-    addKeyword(category, keyword);
-    message.reply(`✅ Keyword "${keyword}" added to category "${category}".`);
-  }
-}
-
-export function handleRemoveKeyword(message, config) {
-  const prefix = getPrefix(message, config.prefixes);
-  if (prefix && message.content.toLowerCase().startsWith(`${prefix} remove keyword`)) {
-    const args = message.content.split(' ').slice(3);
-    const category = args[0];
-    const keyword = args.slice(1).join(' ');
-
-    if (!category || !keyword) {
-      message.reply('❌ Please provide a valid category and keyword.');
-      return;
-    }
-
-    try {
-      removeKeyword(category, keyword);
-      message.reply(`✅ Keyword "${keyword}" removed from category "${category}".`);
-    } catch (error) {
-      message.reply(`❌ ${error.message}`);
-    }
   }
 }
 
@@ -274,11 +202,8 @@ export function handleShowCommands(message, config) {
   if (prefix && message.content.toLowerCase() === `${prefix} show commands`) {
     const commandsList = `
       **Available Commands:**
-      • ${prefix} show all list - Show all keywords
       • ${prefix} show list <category> - Show keywords for a specific category
       • ${prefix} stats - Show bot statistics
-      • ${prefix} add keyword <category> <keyword> - Add a keyword to a category
-      • ${prefix} remove keyword <category> <keyword> - Remove a keyword from a category
       • ${prefix} add series <category> <series> - Add a series to a category
       • ${prefix} remove series <category> <series> - Remove a series from a category
       • ${prefix} add character <category> <series> <character> - Add a character to a series
