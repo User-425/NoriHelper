@@ -12,7 +12,7 @@ NoriHelper is a personal assistant bot for Discord that helps manage series and 
 
 1. Clone the repository:
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/User-425/NoriHelper
     cd norihelper
     ```
 
