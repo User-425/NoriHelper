@@ -1,7 +1,7 @@
 [
   {
     "user": "lupis",
-    "userid": 1120000868335497226,
+    "userid": "1120000868335497226",
     "data": [
       {
         "keyword": "A.C.E",
@@ -9,10 +9,7 @@
       },
       {
         "keyword": "Adventure Time",
-        "characters": [
-          "Finn",
-          "Jake"
-        ]
+        "characters": []
       },
       {
         "keyword": "Arcana Twilight",
@@ -40,7 +37,9 @@
       },
       {
         "keyword": "Call of Duty",
-        "characters": ["Ghost"]
+        "characters": [
+          "Ghost"
+        ]
       },
       {
         "keyword": "Campfire Cooking In Another World With My Absurd Skill",
@@ -104,7 +103,10 @@
       },
       {
         "keyword": "Lullaby of Demonia",
-        "characters": ["Malthus", "Alastor"]
+        "characters": [
+          "Malthus",
+          "Alastor"
+        ]
       },
       {
         "keyword": "Mignon",
@@ -164,7 +166,9 @@
       },
       {
         "keyword": "Sanrio",
-        "characters": ["Pochacco"]
+        "characters": [
+          "Pochacco"
+        ]
       },
       {
         "keyword": "school bus graveyard",
@@ -278,14 +282,11 @@
   },
   {
     "user": "valk",
-    "userid": 331997722305626122,
+    "userid": "331997722305626122",
     "data": [
       {
         "keyword": "Ace Attorney",
-        "characters": [
-          "Phoenix Wright",
-          "Miles Edgeworth"
-        ]
+        "characters": []
       },
       {
         "keyword": "Arcane",
@@ -397,14 +398,11 @@
   },
   {
     "user": "cosmic",
-    "userid": 855862887753842719,
+    "userid": "855862887753842719",
     "data": [
       {
         "keyword": "Attack on titan",
-        "characters": [
-          "Eren Yeager",
-          "Mikasa Ackerman"
-        ]
+        "characters": []
       },
       {
         "keyword": "Bloons TD 6",
