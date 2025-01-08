@@ -34,12 +34,12 @@ client.on('messageCreate', (message) => {
     for (let i = 0; i < characterIndices.length; i++) {
       if (characterIndices[i] < lines.length && seriesIndices[i] < lines.length) {
         const character = lines[characterIndices[i]];
-        const series = lines[seriesIndices[i]].replace(`\`2]\``, '').replace(`\`3]\``, '').trim();
+        const series = lines[seriesIndices[i]].replace(/`\d+\]`/g, '').trim();
         const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
         const userEntry = keywords.find(u => u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase()));
         if (userEntry) {
           const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
-          console.log('\x1b[36m[Bot Message]\x1b[0m', seriesEntry);
+          console.log('\x1b[36m[Bot Message]\x1b[0m', userEntry.user, seriesEntry);
           if (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0) {
             const response = userEntry.userid === config.ownerId
               ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}!\``
