@@ -36,16 +36,19 @@ client.on('messageCreate', (message) => {
         const character = lines[characterIndices[i]];
         const series = lines[seriesIndices[i]].replace(/`\d+\]`/g, '').trim();
         const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
-        const userEntry = keywords.find(u => u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase()));
-        if (userEntry) {
-          const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
-          console.log('\x1b[36m[Bot Message]\x1b[0m', userEntry.user, seriesEntry);
-          if (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0) {
-            const response = userEntry.userid === config.ownerId
-              ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}!\``
-              : `<@${userEntry.userid}>, there is ${character} from \`${series}!\``;
-            message.reply(response);
-          }
+        const userEntries = keywords.filter(u => u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase()));
+        
+        if (userEntries.length > 0) {
+          userEntries.forEach(userEntry => {
+            const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
+            console.log('\x1b[36m[Bot Message]\x1b[0m', userEntry.user, seriesEntry);
+            if (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0) {
+              const response = userEntry.userid === config.ownerId
+                ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}!\``
+                : `<@${userEntry.userid}>, there is ${character} from \`${series}!\``;
+              message.reply(response);
+            }
+          });
         }
       }
     }
