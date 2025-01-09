@@ -22,7 +22,9 @@ class SeriesCommands {
     }
 
     fs.writeFileSync(keywordsPath, JSON.stringify(keywords, null, 2));
-    return `Added series "${series}" with characters: ${characters.join(', ')}`;
+    return characters.length > 0 
+    ? `Sucessfully added series "${series}" with characters: ${characters.join(', ')}`
+    : `Sucessfuly added series "${series}"`;
   }
 
   static deleteSeries(user, series) {
