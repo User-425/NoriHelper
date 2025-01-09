@@ -132,6 +132,16 @@ client.on('messageCreate', (message) => {
       message.reply(helpResponse);
       break;
 
+    case 'getfilter':
+      const getFilterResponse = SeriesCommands.getFilter(user);
+      message.reply(getFilterResponse);
+      break;
+
+    case 'getfiltercharacter':
+      const getFilterCharacterResponse = SeriesCommands.getFilterCharacter(user);
+      message.reply(getFilterCharacterResponse);
+      break;
+
     default:
       message.reply("Unknown command. Type `help` to see the list of commands.");
       break;
