@@ -10,7 +10,7 @@ import { Utils } from './commands/utils.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers] });
 
 client.once('ready', () => {
   console.log(`\x1b[32m[Bot Status]\x1b[0m Logged in as ${client.user.tag}`);
@@ -25,22 +25,32 @@ client.once('ready', () => {
   });
 });
 
-client.on('messageCreate', (message) => {
+client.on('messageCreate', async (message) => {
   if (message.author.id === config.targetBotId) {
     const lines = message.content.split('•').map(line => line.trim());
-    if (lines.length === 5) {
-      const character = lines[3];
-      const series = lines[4];
-      const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
-      const userEntry = keywords.find(u => u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase()));
-      if (userEntry) {
-        const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
-        console.log('\x1b[36m[Bot Message]\x1b[0m', seriesEntry);
-        if (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0) {
-          const response = userEntry.userid === config.ownerId
-            ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}!\``
-            : `<@${userEntry.userid}>, there is ${character} from \`${series}!\``;
-          message.reply(response);
+    const characterIndices = [3, 7, 11];
+    const seriesIndices = [4, 8, 12];
+
+    for (let i = 0; i < characterIndices.length; i++) {
+      if (characterIndices[i] < lines.length && seriesIndices[i] < lines.length) {
+        const character = lines[characterIndices[i]];
+        const series = lines[seriesIndices[i]].replace(/`\d+\]`/g, '').trim();
+        const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
+        const userEntries = keywords.filter(u => u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase()));
+
+        if (userEntries.length > 0) {
+          for (const userEntry of userEntries) {
+            const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
+            console.log('\x1b[36m[Bot Message]\x1b[0m', userEntry.user, seriesEntry);
+            const member = await message.guild.members.fetch(userEntry.userid).catch(() => null);
+
+            if (member && (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0)) {
+              const response = userEntry.userid === config.ownerId
+                ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}\`!`
+                : `<@${userEntry.userid}>, there is ${character} from \`${series}\`!`;
+              message.reply(response);
+            }
+          }
         }
       }
     }
@@ -124,6 +134,16 @@ client.on('messageCreate', (message) => {
       message.reply(helpResponse);
       break;
 
+    case 'getfilter':
+      const getFilterResponse = SeriesCommands.getFilter(user);
+      message.reply(getFilterResponse);
+      break;
+
+    case 'getfiltercharacter':
+      const getFilterCharacterResponse = SeriesCommands.getFilterCharacter(user);
+      message.reply(getFilterCharacterResponse);
+      break;
+      
     default:
       message.reply("Unknown command. Type `help` to see the list of commands.");
       break;

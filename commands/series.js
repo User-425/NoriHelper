@@ -12,7 +12,6 @@ class SeriesCommands {
     const userEntry = keywords.find(u => u.user === user || u.userid === user);
 
     if (!userEntry) return `User not found.`;
-    if (!userEntry) return `User not found.`;
 
     const seriesEntry = userEntry.data.find(s => s.keyword === series);
     if (seriesEntry) {
@@ -23,14 +22,15 @@ class SeriesCommands {
     }
 
     fs.writeFileSync(keywordsPath, JSON.stringify(keywords, null, 2));
-    return `Added series "${series}" with characters: ${characters.join(', ')}`;
+    return characters.length > 0 
+    ? `Sucessfully added series "${series}" with characters: ${characters.join(', ')}`
+    : `Sucessfuly added series "${series}"`;
   }
 
   static deleteSeries(user, series) {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
     const userEntry = keywords.find(u => u.user === user || u.userid === user);
 
-    if (!userEntry) return `User not found.`;
     if (!userEntry) return `User not found.`;
 
     userEntry.data = userEntry.data.filter(s => s.keyword !== series);
@@ -43,9 +43,40 @@ class SeriesCommands {
     const userEntry = keywords.find(u => u.user === user || u.userid === user);
 
     if (!userEntry) return `User not found.`;
-    if (!userEntry) return `User not found.`;
 
     return userEntry.data.map(s => `${s.keyword}: ${s.characters.join(', ') || 'No characters'}`).join('\n') || 'No series found.';
+  }
+
+  static getFilter(user) {
+    const keywords = JSON.parse(fs.readFileSync(keywordsPath));
+    const userEntry = keywords.find(u => u.user === user || u.userid === user);
+
+    if (!userEntry) return `User not found.`;
+
+    const seriesWithCharacters = userEntry.data
+      .filter(s => s.characters.length === 0)
+      .map(s => s.keyword)
+      .join(' , ');
+
+    return `\`\`\`sc s:${seriesWithCharacters}\`\`\``;
+  }
+
+  static getFilterCharacter(user) {
+    const keywords = JSON.parse(fs.readFileSync(keywordsPath));
+    const userEntry = keywords.find(u => u.user === user || u.userid === user);
+
+    if (!userEntry) return `User not found.`;
+
+    const seriesWithCharacters = userEntry.data
+      .filter(s => s.characters.length !== 0)
+      .map(s => s.keyword)
+      .join(' , ');
+
+    const allCharacters = userEntry.data
+      .flatMap(s => s.characters)
+      .join(' , ');
+
+    return `sc s:${seriesWithCharacters} / n:${allCharacters}`;
   }
 }
 

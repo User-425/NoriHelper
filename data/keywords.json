@@ -12,6 +12,10 @@
         "characters": []
       },
       {
+        "keyword": "Aniteez",
+        "characters": []
+      },
+      {
         "keyword": "Arcana Twilight",
         "characters": []
       },
@@ -21,10 +25,6 @@
       },
       {
         "keyword": "Banana Fish",
-        "characters": []
-      },
-      {
-        "keyword": "Sengoku Basara: Samurai Kings",
         "characters": []
       },
       {
@@ -117,6 +117,10 @@
         "characters": []
       },
       {
+        "keyword": "My Little Pony: Friendship Is Magic",
+        "characters": []
+      },
+      {
         "keyword": "mystic messenger",
         "characters": []
       },
@@ -179,6 +183,10 @@
         "characters": []
       },
       {
+        "keyword": "Sengoku Basara: Samurai Kings",
+        "characters": []
+      },
+      {
         "keyword": "show by rock",
         "characters": []
       },
@@ -212,6 +220,10 @@
       },
       {
         "keyword": "the apothecary diaries",
+        "characters": []
+      },
+      {
+        "keyword": "The Case Study of Vanitas",
         "characters": []
       },
       {
@@ -293,6 +305,10 @@
         "characters": []
       },
       {
+        "keyword": "Akame ga Kill!",
+        "characters": []
+      },
+      {
         "keyword": "Arcane",
         "characters": []
       },
@@ -341,11 +357,21 @@
         "characters": []
       },
       {
+        "keyword": "Magic Kaito 1412",
+        "characters": [
+          "Kaito Kuroba"
+        ]
+      },
+      {
         "keyword": "Memes",
         "characters": []
       },
       {
         "keyword": "Mobile Legends",
+        "characters": []
+      },
+      {
+        "keyword": "Mushoku Tensei: Jobless Reincarnation",
         "characters": []
       },
       {
@@ -369,6 +395,10 @@
         "characters": []
       },
       {
+        "keyword": "Spongebob SquarePants",
+        "characters": []
+      },
+      {
         "keyword": "Sword Art Online",
         "characters": []
       },
@@ -381,6 +411,19 @@
         "characters": []
       },
       {
+        "keyword": "The Umbrella Academy",
+        "characters": []
+      },
+      {
+        "keyword": "We Bare Bears",
+        "characters": [
+          "Grizz",
+          "Ice Bear",
+          "Nom Nom",
+          "Panda"
+        ]
+      },
+      {
         "keyword": "World of Warcraft",
         "characters": [
           "Arthas Menethil",
@@ -389,6 +432,10 @@
           "Sylvanas Windrunner",
           "The Lich King"
         ]
+      },
+      {
+        "keyword": "World Trigger",
+        "characters": []
       },
       {
         "keyword": "World's Strongest Troll",
@@ -409,7 +456,11 @@
         "characters": []
       },
       {
-        "keyword": "Demon slayer",
+        "keyword": "Castle Crashers",
+        "characters": []
+      },
+      {
+        "keyword": "Demon Slayer",
         "characters": []
       },
       {
@@ -418,6 +469,10 @@
       },
       {
         "keyword": "Mobile Legends",
+        "characters": []
+      },
+      {
+        "keyword": "One Piece",
         "characters": []
       },
       {
