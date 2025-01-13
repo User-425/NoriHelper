@@ -1,0 +1,6 @@
+{
+    "token": "BOT_TOKEN",
+    "targetBotId": "742070928111960155",
+    "ownerId": "331997722305626122",
+    "prefixes": ["virgo,", "v,", "vir,"]
+}
