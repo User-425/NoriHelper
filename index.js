@@ -41,7 +41,17 @@ client.on('messageCreate', async (message) => {
         if (userEntries.length > 0) {
           for (const userEntry of userEntries) {
             const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
-            console.log('\x1b[36m[Bot Message]\x1b[0m', userEntry.user, seriesEntry);
+            const timestamp = new Date().toLocaleString();
+            const serverName = message.guild.name;
+            console.log(
+              '\x1b[1m\x1b[34m[Bot Message]\x1b[0m',
+              '\x1b[1m\x1b[32mUser:\x1b[0m', userEntry.user, 
+              '| \x1b[1m\x1b[33mSeries Entry:\x1b[0m', seriesEntry, 
+              '| \x1b[1m\x1b[35mCharacter:\x1b[0m', character, 
+              '| \x1b[1m\x1b[36mSeries:\x1b[0m', series, 
+              '| ', timestamp, 
+              '| ', serverName 
+            );
             const member = await message.guild.members.fetch(userEntry.userid).catch(() => null);
 
             if (member && (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0)) {
