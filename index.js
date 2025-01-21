@@ -43,14 +43,14 @@ client.on('messageCreate', async (message) => {
             const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
             const timestamp = new Date().toLocaleString();
             const serverName = message.guild.name;
+            const isCharacterBeingLookedFor = (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0) ? '\x1b[0m|\x1b[1m\x1b[33m True\x1b[0m' : '| False';
             console.log(
               '\x1b[1m\x1b[34m[Bot Message]\x1b[0m',
-              '\x1b[1m\x1b[32mUser:\x1b[0m', userEntry.user, 
-              '| \x1b[1m\x1b[33mSeries Entry:\x1b[0m', seriesEntry, 
-              '| \x1b[1m\x1b[35mCharacter:\x1b[0m', character, 
-              '| \x1b[1m\x1b[36mSeries:\x1b[0m', series, 
-              '| ', timestamp, 
-              '| ', serverName 
+              '\x1b[0m', timestamp,
+              '\x1b[1m|\x1b[32m', userEntry.user,
+              '\x1b[0m|\x1b[1m\x1b[35m', character.replace(/\*\*/g, ''),
+              '\x1b[0m|\x1b[1m\x1b[36m Series:\x1b[0m', series,
+              '| ', serverName, isCharacterBeingLookedFor
             );
             const member = await message.guild.members.fetch(userEntry.userid).catch(() => null);
 
@@ -152,7 +152,7 @@ client.on('messageCreate', async (message) => {
       const getFilterCharacterResponse = SeriesCommands.getFilterCharacter(user);
       message.reply(getFilterCharacterResponse);
       break;
-      
+
     default:
       message.reply("Unknown command. Type `help` to see the list of commands.");
       break;
