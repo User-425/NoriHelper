@@ -68,22 +68,29 @@ client.on('messageCreate', async (message) => {
   const userId = message.author.id;
   const user = args[0] === 'me' ? userId : args[0];
 
+  const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
+  const userEntry = keywords.find(u => u.user === user || u.userid === user);
+
   switch (command) {
     case 'addseries':
-      if (userId !== config.ownerId) {
+    case 'delseries':
+    case 'addcharacter':
+    case 'delcharacter':
+      if (userId !== config.ownerId && (!userEntry || userEntry.userid !== userId)) {
         message.reply("You don't have permission to use this command.");
         return;
       }
+      break;
+  }
+
+  switch (command) {
+    case 'addseries':
       const [series, ...characters] = args.slice(1);
       const response = SeriesCommands.addSeries(user, series, characters);
       message.reply(response);
       break;
 
     case 'delseries':
-      if (userId !== config.ownerId) {
-        message.reply("You don't have permission to use this command.");
-        return;
-      }
       const [delSeries] = args.slice(1);
       const delResponse = SeriesCommands.deleteSeries(user, delSeries);
       message.reply(delResponse);
@@ -95,20 +102,12 @@ client.on('messageCreate', async (message) => {
       break;
 
     case 'addcharacter':
-      if (userId !== config.ownerId) {
-        message.reply("You don't have permission to use this command.");
-        return;
-      }
       const [charSeries, ...charNames] = args.slice(1);
       const addCharResponse = CharacterCommands.addCharacter(user, charSeries, charNames);
       message.reply(addCharResponse);
       break;
 
     case 'delcharacter':
-      if (userId !== config.ownerId) {
-        message.reply("You don't have permission to use this command.");
-        return;
-      }
       const [delCharSeries, ...delCharNames] = args.slice(1);
       const delCharResponse = CharacterCommands.deleteCharacter(user, delCharSeries, delCharNames);
       message.reply(delCharResponse);
