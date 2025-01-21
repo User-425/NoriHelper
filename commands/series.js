@@ -44,7 +44,7 @@ class SeriesCommands {
 
     if (!userEntry) return `User not found.`;
 
-    return userEntry.data.map(s => `${s.keyword}: ${s.characters.join(', ') || 'No characters'}`).join('\n') || 'No series found.';
+    return userEntry.data.map(s => `${s.keyword}: ${s.characters.join(', ') || 'All Characters'}`).join('\n') || 'No series found.';
   }
 
   static getFilter(user) {
