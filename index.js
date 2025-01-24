@@ -6,7 +6,6 @@ import config from './data/config.json' assert { type: 'json' };
 import { SeriesCommands } from './commands/series.js';
 import { CharacterCommands } from './commands/characters.js';
 import { Utils } from './commands/utils.js';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -31,40 +30,66 @@ client.on('messageCreate', async (message) => {
     const characterIndices = [3, 7, 11];
     const seriesIndices = [4, 8, 12];
 
+    // Load keywords once to avoid repeated file I/O
+    const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
+
     for (let i = 0; i < characterIndices.length; i++) {
-      if (characterIndices[i] < lines.length && seriesIndices[i] < lines.length) {
-        const character = lines[characterIndices[i]];
-        const series = lines[seriesIndices[i]].replace(/`\d+\]`/g, '').trim();
-        const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
-        const userEntries = keywords.filter(u => u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase()));
+      if (characterIndices[i] >= lines.length || seriesIndices[i] >= lines.length) continue;
 
-        if (userEntries.length > 0) {
-          for (const userEntry of userEntries) {
-            const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
-            const timestamp = new Date().toLocaleString();
-            const serverName = message.guild.name;
-            const isCharacterBeingLookedFor = (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0) ? '\x1b[0m|\x1b[1m\x1b[33m True\x1b[0m' : '| False';
-            console.log(
-              '\x1b[1m\x1b[34m[Bot Message]\x1b[0m',
-              '\x1b[0m', timestamp,
-              '\x1b[1m|\x1b[32m', userEntry.user,
-              '\x1b[0m|\x1b[1m\x1b[35m', character.replace(/\*\*/g, ''),
-              '\x1b[0m|\x1b[1m\x1b[36m Series:\x1b[0m', series,
-              '| ', serverName, isCharacterBeingLookedFor
-            );
-            const member = await message.guild.members.fetch(userEntry.userid).catch(() => null);
+      const character = lines[characterIndices[i]].replace(/\*\*/g, '');
+      const series = lines[seriesIndices[i]].replace(/`\d+\]`/g, '').trim();
 
-            if (member && (seriesEntry.characters.includes(character.replace(/\*\*/g, '')) || seriesEntry.characters.length === 0)) {
-              const response = userEntry.userid === config.ownerId
-                ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}\`!`
-                : `<@${userEntry.userid}>, there is ${character} from \`${series}\`!`;
-              message.reply(response);
-            }
+      // Filter user entries for the specific series
+      const userEntries = keywords.filter(u =>
+        u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase())
+      );
+
+      if (userEntries.length === 0) continue;
+
+      // Process each matching user entry
+      for (const userEntry of userEntries) {
+        const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
+        const timestamp = new Date().toLocaleString();
+        const serverName = message.guild.name;
+
+        // Check if the character is in the series entry
+        const isCharacterBeingLookedFor =
+          seriesEntry.characters.includes(character) || seriesEntry.characters.length === 0;
+
+        console.log(
+          '\x1b[1m\x1b[34m[Bot Message]\x1b[0m',
+          '\x1b[0m', timestamp,
+          '\x1b[1m|\x1b[32m', userEntry.user,
+          '\x1b[0m|\x1b[1m\x1b[35m', character,
+          '\x1b[0m|\x1b[1m\x1b[36m Series:\x1b[0m', series,
+          '| ', serverName,
+          isCharacterBeingLookedFor ? '\x1b[0m|\x1b[1m\x1b[33m True\x1b[0m' : '| False'
+        );
+
+        if (!isCharacterBeingLookedFor) continue;
+
+        // Fetch the member once
+        const member = await message.guild.members.fetch(userEntry.userid).catch(() => null);
+
+        if (member) {
+          // Compose and send a response
+          const response =
+            userEntry.userid === config.ownerId
+              ? `<@${userEntry.userid}> Master! I found ${character} from \`${series}\`!`
+              : `<@${userEntry.userid}>, there is ${character} from \`${series}\`!`;
+
+          message.reply(response);
+        } else {
+          // Optional DM to the owner if configured
+          if (config.dmOwnerOnCharacterFound) {
+            const messageLink = `https://discord.com/channels/${message.guild.id}/${message.channel.id}/${message.id}`;
+            client.users.fetch(config.ownerId).then(owner => {
+              owner.send(`I found ${userEntry.user}'s list, **${character}** from \`${series}\`! Here is the [link](${messageLink}).`);
+            });
           }
         }
       }
     }
-    return;
   }
 
   const prefix = config.prefixes.find(p => message.content.toLowerCase().startsWith(p.toLowerCase()));
@@ -151,12 +176,12 @@ client.on('messageCreate', async (message) => {
     case 'getfiltercharacter':
       const getFilterCharacterResponse = SeriesCommands.getFilterCharacter(user);
       message.reply(getFilterCharacterResponse);
-      break;
-
-    default:
-      message.reply("Unknown command. Type `help` to see the list of commands.");
-      break;
-  }
+        break;
+  
+      default:
+        message.reply("Unknown command. Type `help` to see the list of commands.");
+        break;
+    }
 });
 
 client.login(config.token);
