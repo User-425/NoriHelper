@@ -67,6 +67,7 @@ client.on('messageCreate', async (message) => {
         );
 
         if (!isCharacterBeingLookedFor) continue;
+        if (userEntry.isLooking === false) continue;
 
         // Fetch the member once
         const member = await message.guild.members.fetch(userEntry.userid).catch(() => null);
