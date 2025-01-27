@@ -2,143 +2,239 @@
   {
     "user": "valk",
     "userid": "331997722305626122",
+    "isLooking": true,
     "data": [
       {
+        "keyword": "",
+        "characters": []
+      },
+      {
+        "keyword": "7th Time Loop: The Villainess Enjoys a Carefree Life Married to Her Worst Enemy!",
+        "exclude": [],
+        "characters": []
+      },
+      {
         "keyword": "86",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Ace Attorney",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Akame ga Kill!",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Alya Sometimes Hides Her Feelings in Russian",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Arcane",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Arifureta: From Commonplace to World's Strongest",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Black Clover",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Bloons TD 6",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Campfire Cooking In Another World With My Absurd Skill",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Code Lyoko",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Cyberpunk: Edgerunners",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Death Note",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Delicious in Dungeon",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Demon Slayer",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Detective Conan",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Dr. Stone",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Failure Frame: I Became the Strongest and Annihilated Everything With Low-Level Spells",
         "characters": []
       },
       {
         "keyword": "Fairy Tail",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Fire Force",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Godzilla",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Hunter x Hunter",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "I'm Quitting Heroing",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Lego Ninjago",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Magic Kaito 1412",
+        "exclude": [],
         "characters": [
           "Kaito Kuroba"
         ]
       },
       {
         "keyword": "Memes",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "minecraft",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Mobile Legends",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Mushoku Tensei: Jobless Reincarnation",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "My Hero Academia",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "No Game No Life",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Plants vs. Zombies",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Re:ZERO -Starting Life in Another World-",
         "characters": []
       },
       {
         "keyword": "Record of Ragnarok",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Sengoku Basara: Samurai Kings",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Shangri-La Frontier",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Spongebob SquarePants",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Sword Art Online",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "The Last: Naruto the Movie",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "The Misfit of Demon King Academy",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "The Rising of the Shield Hero",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "The Strongest Sage with the Weakest Crest",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "The Umbrella Academy",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Transformers",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Tsukimichi: Moonlit Fantasy",
         "characters": []
       },
       {
         "keyword": "We Bare Bears",
+        "exclude": [],
         "characters": [
           "Grizz",
           "Ice Bear",
@@ -148,6 +244,7 @@
       },
       {
         "keyword": "World of Warcraft",
+        "exclude": [],
         "characters": [
           "Arthas Menethil",
           "Illidan Stormrage",
@@ -158,10 +255,92 @@
       },
       {
         "keyword": "World Trigger",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "World's Strongest Troll",
+        "exclude": [],
+        "characters": []
+      }
+    ]
+  },
+  {
+    "user": "MyCollection",
+    "userid": "331997722305626122",
+    "isLooking": false,
+    "data": [
+      {
+        "keyword": "7th Time Loop: The Villainess Enjoys a Carefree Life Married to Her Worst Enemy!",
+        "exclude": [],
+        "characters": []
+      }
+    ]
+  },
+  {
+    "user": "MyBanner",
+    "userid": "331997722305626122",
+    "isLooking": false,
+    "data": [
+      {
+        "keyword": "7th Time Loop: The Villainess Enjoys a Carefree Life Married to Her Worst Enemy!",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Alya Sometimes Hides Her Feelings in Russian",
+        "characters": []
+      },
+      {
+        "keyword": "arcane",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Detective Conan",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Doraemon",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "I'm Quitting Heroing",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Lego Ninjago",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "No Game No Life",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Record of Ragnarok",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "SAO: Alicization",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "The Last: Naruto the Movie",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "The Rising of the Shield Hero",
+        "exclude": [
+          "Naofumi Iwatani"
+        ],
         "characters": []
       }
     ]
@@ -169,107 +348,133 @@
   {
     "user": "lupis",
     "userid": "1120000868335497226",
+    "isLooking": true,
     "data": [
       {
         "keyword": "A.C.E",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Adventure Time",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Aniteez",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Arcana Twilight",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "ATEEZ",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Banana Fish",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Beastars",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "BNA: Brand New Animal",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Call of Duty",
+        "exclude": [],
         "characters": [
           "Ghost"
         ]
       },
       {
         "keyword": "Campfire Cooking In Another World With My Absurd Skill",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Chainsaw Man",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Day6",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Dreaming Freedom",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Eleceed",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Free!",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Got7",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Hazbin Hotel",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Helluva Boss",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "killer peter",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "kiss him, not me!",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Komi Can't Communicate",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Kuroko's Basketball",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Love All Play",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Love and Deepspace",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Lullaby of Demonia",
+        "exclude": [],
         "characters": [
           "Malthus",
           "Alastor"
@@ -277,184 +482,219 @@
       },
       {
         "keyword": "Mignon",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "minecraft",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "My Little Pony: Friendship Is Magic",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "mystic messenger",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "not your typical reincarnation story",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "obey me!",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Oneus",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "operation: true love",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "orient",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "oshi no ko",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Ouran High School Host Club",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "pentagon",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "pikmin",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "roses & champagne",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "salaryman’s club",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Sanrio",
+        "exclude": [],
         "characters": [
           "Pochacco"
         ]
       },
       {
         "keyword": "school bus graveyard",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Semantic Error",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Sengoku Basara: Samurai Kings",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "show by rock",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "slam dunk",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Sonic the Hedgehog",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "steven universe",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "teen titans",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "the age of arrogance",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "the amazing world of gumball",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "The Ancient Magus' Bride",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "the apothecary diaries",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "The Case Study of Vanitas",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "the mafia nanny",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "the way of the househusband",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "The Yakuza's Guide to Babysitting",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "tom and jerry",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "treasure",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "true beauty",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "TXT",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "umamusume pretty derby",
-        "characters": []
-      },
-      {
-        "keyword": "The Case Study of Vanitas",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Walk on Water",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "weathering with you",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "wet sand",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "WJSN",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "wolf children",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "X1",
-        "characters": []
-      },
-      {
-        "keyword": "My Little Pony: Friendship Is Magic",
+        "exclude": [],
         "characters": []
       }
     ]
@@ -462,53 +702,75 @@
   {
     "user": "cosmic",
     "userid": "855862887753842719",
+    "isLooking": true,
     "data": [
       {
         "keyword": "Attack on titan",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Bloons TD 6",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Castle Crashers",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Demon Slayer",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "foodie",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Godzilla",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Memes",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "minecraft",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Mobile Legends",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "One Piece",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "One Punch Man",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Roblox",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Squid Game",
+        "characters": []
+      },
+      {
+        "keyword": "Transformers",
+        "exclude": [],
         "characters": []
       }
     ]
@@ -516,13 +778,16 @@
   {
     "user": "ai",
     "userid": "703587664795795477",
+    "isLooking": true,
     "data": [
       {
         "keyword": "Harry Potter",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "Kuroko's Basketball",
+        "exclude": [],
         "characters": []
       }
     ]
@@ -530,13 +795,42 @@
   {
     "user": "synth",
     "userid": "311810353572872192",
+    "isLooking": true,
     "data": [
       {
+        "keyword": "castlevania",
+        "characters": []
+      },
+      {
+        "keyword": "hollow knight",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "jujutsu kaisen",
+        "characters": []
+      },
+      {
+        "keyword": "Omniscient Reader's Viewpoint",
+        "characters": []
+      },
+      {
         "keyword": "Overlord",
+        "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "Re:ZERO -Starting Life in Another World-",
+        "characters": []
+      },
+      {
+        "keyword": "Tower Of God",
+        "exclude": [],
         "characters": []
       },
       {
         "keyword": "undertale",
+        "exclude": [],
         "characters": []
       }
     ]
