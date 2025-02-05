@@ -94,10 +94,6 @@
         "characters": []
       },
       {
-        "keyword": "Failure Frame: I Became the Strongest and Annihilated Everything With Low-Level Spells",
-        "characters": []
-      },
-      {
         "keyword": "Fairy Tail",
         "exclude": [],
         "characters": []
@@ -120,6 +116,10 @@
       {
         "keyword": "I'm Quitting Heroing",
         "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "In Another World With My Smartphone",
         "characters": []
       },
       {
@@ -209,6 +209,10 @@
         "characters": []
       },
       {
+        "keyword": "The Most Notorious \"Talker\" Runs the World's Greatest Clan",
+        "characters": []
+      },
+      {
         "keyword": "The Rising of the Shield Hero",
         "exclude": [],
         "characters": []
@@ -241,6 +245,10 @@
           "Nom Nom",
           "Panda"
         ]
+      },
+      {
+        "keyword": "Wistoria: Wand and Sword",
+        "characters": []
       },
       {
         "keyword": "World of Warcraft",
@@ -309,6 +317,10 @@
       {
         "keyword": "I'm Quitting Heroing",
         "exclude": [],
+        "characters": []
+      },
+      {
+        "keyword": "KonoSuba: God's Blessing on This Wonderful World!",
         "characters": []
       },
       {
@@ -688,7 +700,7 @@
         "characters": []
       },
       {
-        "keyword": "wolf children",
+        "keyword": "Wolf Children",
         "exclude": [],
         "characters": []
       },
@@ -725,7 +737,7 @@
         "characters": []
       },
       {
-        "keyword": "foodie",
+        "keyword": "Foodie",
         "exclude": [],
         "characters": []
       },
@@ -740,7 +752,7 @@
         "characters": []
       },
       {
-        "keyword": "minecraft",
+        "keyword": "Minecraft",
         "exclude": [],
         "characters": []
       },
@@ -793,21 +805,52 @@
     ]
   },
   {
+    "user": "marshie",
+    "userid": "758395100609904710",
+    "isLooking": true,
+    "data": [
+      {
+        "keyword": "aespa",
+        "characters": []
+      },
+      {
+        "keyword": "blue lock",
+        "characters": []
+      },
+      {
+        "keyword": "captain tsubasa",
+        "characters": []
+      },
+      {
+        "keyword": "Hunter x Hunter",
+        "characters": []
+      },
+      {
+        "keyword": "mobile legends",
+        "characters": []
+      },
+      {
+        "keyword": "naruto",
+        "characters": []
+      }
+    ]
+  },
+  {
     "user": "synth",
     "userid": "311810353572872192",
     "isLooking": true,
     "data": [
       {
-        "keyword": "castlevania",
+        "keyword": "Castlevania",
         "characters": []
       },
       {
-        "keyword": "hollow knight",
+        "keyword": "Hollow Knight",
         "exclude": [],
         "characters": []
       },
       {
-        "keyword": "jujutsu kaisen",
+        "keyword": "Jujutsu Kaisen",
         "characters": []
       },
       {
@@ -829,7 +872,7 @@
         "characters": []
       },
       {
-        "keyword": "undertale",
+        "keyword": "Undertale",
         "exclude": [],
         "characters": []
       }
