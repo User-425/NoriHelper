@@ -105,7 +105,7 @@ client.on('messageCreate', async (message) => {
   const user = args[0] === 'me' ? userId : args[0];
 
   const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
-  const userEntry = keywords.find(u => u.user === user || u.userid === user);
+  const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid === user);
 
   switch (command) {
     case 'addseries':
