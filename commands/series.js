@@ -9,8 +9,8 @@ const keywordsPath = path.join(__dirname, '../data/keywords.json');
 class SeriesCommands {
   static addSeries(user, series, characters) {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
-    const userEntry = keywords.find(u => u.user === user || u.userid === user);
 
+    const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
     if (!userEntry) return `User not found.`;
 
     const seriesEntry = userEntry.data.find(s => s.keyword === series);
@@ -29,7 +29,7 @@ class SeriesCommands {
 
   static deleteSeries(user, series) {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
-    const userEntry = keywords.find(u => u.user === user || u.userid === user);
+    const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
 
     if (!userEntry) return `User not found.`;
 
@@ -40,7 +40,7 @@ class SeriesCommands {
 
   static listSeries(user) {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
-    const userEntry = keywords.find(u => u.user === user || u.userid === user);
+    const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
 
     if (!userEntry) return `User not found.`;
 
@@ -49,7 +49,7 @@ class SeriesCommands {
 
   static getFilter(user) {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
-    const userEntry = keywords.find(u => u.user === user || u.userid === user);
+    const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
 
     if (!userEntry) return `User not found.`;
 
@@ -63,7 +63,7 @@ class SeriesCommands {
 
   static getFilterCharacter(user) {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
-    const userEntry = keywords.find(u => u.user === user || u.userid === user);
+    const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
 
     if (!userEntry) return `User not found.`;
 

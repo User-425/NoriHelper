@@ -9,7 +9,7 @@ const keywordsPath = path.join(__dirname, '../data/keywords.json');
 class CharacterCommands {
   static addCharacter(user, series, characters) {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
-    const userEntry = keywords.find(u => u.user === user || u.userid === user);
+    const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
 
     if (!userEntry) return `User not found.`;
 
@@ -26,7 +26,7 @@ class CharacterCommands {
 
   static deleteCharacter(user, series, characters) {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
-    const userEntry = keywords.find(u => u.user === user || u.userid === user);
+    const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
 
     if (!userEntry) return `User not found.`;
 
@@ -42,7 +42,7 @@ class CharacterCommands {
 
   static listCharacters(user, series) {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
-    const userEntry = keywords.find(u => u.user === user || u.userid === user);
+    const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
 
     if (!userEntry) return `User not found.`;
 
