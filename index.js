@@ -36,7 +36,7 @@ client.on('messageCreate', async (message) => {
     for (let i = 0; i < characterIndices.length; i++) {
       if (characterIndices[i] >= lines.length || seriesIndices[i] >= lines.length) continue;
 
-      const character = lines[characterIndices[i]].replace(/\*\*/g, '');
+      const character = lines[characterIndices[i]].replace(/\*\*/g, '').replace(/<:\w+:\d+>/, '').replace(/:\d+:/,'').trim();
       const series = lines[seriesIndices[i]].replace(/`\d+\]`/g, '').trim();
 
       // Filter user entries for the specific series
