@@ -49,6 +49,22 @@ class CharacterCommands {
     const seriesEntry = userEntry.data.find(s => s.keyword === series);
     return seriesEntry ? seriesEntry.characters.join(', ') || 'No characters found.' : `Series "${series}" not found.`;
   }
+
+  static excludeCharacter(user, series, characters) {
+    const keywords = JSON.parse(fs.readFileSync(keywordsPath));
+    const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
+
+    if (!userEntry) return `User not found.`;
+
+    const seriesEntry = userEntry.data.find(s => s.keyword === series);
+    if (seriesEntry) {
+      seriesEntry.exclude = [...new Set([...seriesEntry.exclude, ...characters])].sort();
+      fs.writeFileSync(keywordsPath, JSON.stringify(keywords, null, 2));
+      return `Excluded characters from series "${series}": ${characters.join(', ')}`;
+    } else {
+      return `Series "${series}" not found.`;
+    }
+  }
 }
 
 export { CharacterCommands };

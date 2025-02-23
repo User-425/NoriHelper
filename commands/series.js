@@ -9,7 +9,7 @@ const keywordsPath = path.join(__dirname, '../data/keywords.json');
 class SeriesCommands {
   static addSeries(user, series, characters) {
     const keywords = JSON.parse(fs.readFileSync(keywordsPath));
-
+    
     const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
     if (!userEntry) return `User not found.`;
 
@@ -78,6 +78,37 @@ class SeriesCommands {
 
     return `sc s:${seriesWithCharacters} / n:${allCharacters}`;
   }
+  
+  static getAdvFilter(user) {
+    const keywords = JSON.parse(fs.readFileSync(keywordsPath));
+    const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid.toLowerCase() === user.toLowerCase());
+
+    if (!userEntry) return `User not found.`;
+
+    const allSeries = userEntry.data.map(s => s.keyword);
+    const seriesWithIncludedCharacters = userEntry.data
+      .filter(s => s.characters && s.characters.length > 0)
+      .map(s => s.keyword + ' / n=' + s.characters.map(c => `n=${c}`).join(', '));
+    
+    // Merge "all series" into a single statement
+    const allSeriesOutput = `sc s:${allSeries.join(' , ')} , (all series)`;
+
+    // Format included characters by series
+    const includedCharactersOutput = seriesWithIncludedCharacters.length
+      ? seriesWithIncludedCharacters.map(item => `sc s:${item}`).join('\n')
+      : '';
+
+    // Merge the final output
+    const finalOutput = [
+        `**Series with all characters:**\n\`\`\`\n${allSeriesOutput}\n\`\`\``,
+        includedCharactersOutput
+          ? `**Series with included characters:**\n\`\`\`\n${includedCharactersOutput}\n\`\`\``
+          : null,
+    ].filter(Boolean).join('\n\n');
+
+    return finalOutput;
+}
+  
 }
 
 export { SeriesCommands };

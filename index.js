@@ -112,6 +112,7 @@ client.on('messageCreate', async (message) => {
     case 'delseries':
     case 'addcharacter':
     case 'delcharacter':
+    case 'exccharacter':
       if (userId !== config.ownerId && (!userEntry || userEntry.userid !== userId)) {
         message.reply("You don't have permission to use this command.");
         return;
@@ -149,6 +150,12 @@ client.on('messageCreate', async (message) => {
       message.reply(delCharResponse);
       break;
 
+    case 'exccharacter':
+      const [excludeSeries, ...excludeCharNames] = args.slice(1);
+      const excludeCharResponse = CharacterCommands.excludeCharacter(user, excludeSeries, excludeCharNames);
+      message.reply(excludeCharResponse);
+      break;
+
     case 'listcharacter':
       const listCharResponse = CharacterCommands.listCharacters(user, args[1]);
       message.reply(listCharResponse);
@@ -177,12 +184,17 @@ client.on('messageCreate', async (message) => {
     case 'getfiltercharacter':
       const getFilterCharacterResponse = SeriesCommands.getFilterCharacter(user);
       message.reply(getFilterCharacterResponse);
-        break;
-  
-      default:
-        message.reply("Unknown command. Type `help` to see the list of commands.");
-        break;
-    }
+      break;
+
+    // case 'getadvfilter':
+    //   const getAdvFilterResponse = SeriesCommands.getAdvFilter(user);
+    //   message.reply(getAdvFilterResponse);
+    //   break;
+
+    default:
+      message.reply("Unknown command. Type `help` to see the list of commands.");
+      break;
+  }
 });
 
 client.login(config.token);
