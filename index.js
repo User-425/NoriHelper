@@ -121,10 +121,22 @@ client.on("messageCreate", async (message) => {
   const command = args.shift().toLowerCase();
 
   const userId = message.author.id;
-  const user = args[0] === 'me' ? userId : args[0];
+  const user = args[0] === "me" ? userId : args[0];
+  
+  try {
+    if (user !== "") {
+      user = user.toLowerCase();
+    }
+  } catch (error) {
+    // console.log(error);
+  }
 
-  const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
-  const userEntry = keywords.find(u => u.user.toLowerCase() === user.toLowerCase() || u.userid === user);
+  const keywords = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "./data/keywords.json"))
+  );
+  const userEntry = keywords.find(
+    (u) => u.user.toLowerCase() === user || u.userid === user
+  );
 
   switch (command) {
     case 'addseries':
