@@ -24,7 +24,26 @@ client.once('ready', () => {
   });
 });
 
-client.on('messageCreate', async (message) => {
+function sendReply(message, response) {
+  const maxLength = 2000;
+  if (response.length <= maxLength) {
+    message.reply(response);
+  } else {
+    const parts = [];
+    while (response.length > 0) {
+      let part = response.slice(0, maxLength);
+      const lastNewLineIndex = part.lastIndexOf("\n");
+      if (lastNewLineIndex > -1) {
+        part = response.slice(0, lastNewLineIndex + 1);
+      }
+      parts.push(part);
+      response = response.slice(part.length);
+    }
+    parts.forEach((part) => message.reply(part));
+  }
+}
+
+client.on("messageCreate", async (message) => {
   if (message.author.id === config.targetBotId) {
     const lines = message.content.split('•').map(line => line.trim());
     const characterIndices = [3, 7, 11];
@@ -129,18 +148,22 @@ client.on('messageCreate', async (message) => {
     case 'delseries':
       const [delSeries] = args.slice(1);
       const delResponse = SeriesCommands.deleteSeries(user, delSeries);
-      message.reply(delResponse);
+      sendReply(message, delResponse);
       break;
 
     case 'listseries':
       const listResponse = SeriesCommands.listSeries(user);
-      message.reply(listResponse);
+      sendReply(message, listResponse);
       break;
 
     case 'addcharacter':
       const [charSeries, ...charNames] = args.slice(1);
-      const addCharResponse = CharacterCommands.addCharacter(user, charSeries, charNames);
-      message.reply(addCharResponse);
+      const addCharResponse = CharacterCommands.addCharacter(
+        user,
+        charSeries,
+        charNames
+      );
+      sendReply(message, addCharResponse);
       break;
 
     case 'delcharacter':
@@ -151,12 +174,12 @@ client.on('messageCreate', async (message) => {
 
     case 'listcharacter':
       const listCharResponse = CharacterCommands.listCharacters(user, args[1]);
-      message.reply(listCharResponse);
+      sendReply(message, listCharResponse);
       break;
 
     case 'listall':
       const listAllResponse = SeriesCommands.listSeries(user);
-      message.reply(listAllResponse);
+      sendReply(message, listAllResponse);
       break;
 
     case 'status':
@@ -171,18 +194,22 @@ client.on('messageCreate', async (message) => {
 
     case 'getfilter':
       const getFilterResponse = SeriesCommands.getFilter(user);
-      message.reply(getFilterResponse);
+      sendReply(message, getFilterResponse);
       break;
 
-    case 'getfiltercharacter':
-      const getFilterCharacterResponse = SeriesCommands.getFilterCharacter(user);
-      message.reply(getFilterCharacterResponse);
-        break;
-  
-      default:
-        message.reply("Unknown command. Type `help` to see the list of commands.");
-        break;
-    }
+    case "getfiltercharacter":
+      const getFilterCharacterResponse =
+        SeriesCommands.getFilterCharacter(user);
+      sendReply(message, getFilterCharacterResponse);
+      break;
+
+    default:
+      sendReply(
+        message,
+        "Unknown command. Type `help` to see the list of commands."
+      );
+      break;
+  }
 });
 
 client.login(config.token);
