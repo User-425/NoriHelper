@@ -1,23 +1,30 @@
-import { Client, GatewayIntentBits, ActivityType } from 'discord.js';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import config from './data/config.json' assert { type: 'json' };
-import { SeriesCommands } from './commands/series.js';
-import { CharacterCommands } from './commands/characters.js';
-import { Utils } from './commands/utils.js';
+import { Client, GatewayIntentBits, ActivityType } from "discord.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import config from "./data/config.json" assert { type: "json" };
+import { SeriesCommands } from "./commands/series.js";
+import { CharacterCommands } from "./commands/characters.js";
+import { Utils } from "./commands/utils.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers] });
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMembers,
+  ],
+});
 
-client.once('ready', () => {
+client.once("ready", () => {
   console.log(`\x1b[32m[Bot Status]\x1b[0m Logged in as ${client.user.tag}`);
   client.user.setPresence({
-    status: 'online',
+    status: "online",
     activities: [
       {
-        name: 'over Master ❤️',
+        name: "over Master ❤️",
         type: ActivityType.Watching,
       },
     ],
@@ -45,51 +52,73 @@ function sendReply(message, response) {
 
 client.on("messageCreate", async (message) => {
   if (message.author.id === config.targetBotId) {
-    const lines = message.content.split('•').map(line => line.trim());
+    const lines = message.content.split("•").map((line) => line.trim());
     const characterIndices = [3, 7, 11];
     const seriesIndices = [4, 8, 12];
 
     // Load keywords once to avoid repeated file I/O
-    const keywords = JSON.parse(fs.readFileSync(path.join(__dirname, './data/keywords.json')));
+    const keywords = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "./data/keywords.json"))
+    );
 
     for (let i = 0; i < characterIndices.length; i++) {
-      if (characterIndices[i] >= lines.length || seriesIndices[i] >= lines.length) continue;
+      if (
+        characterIndices[i] >= lines.length ||
+        seriesIndices[i] >= lines.length
+      )
+        continue;
 
-      const character = lines[characterIndices[i]].replace(/\*\*/g, '').replace(/<:\w+:\d+>/, '').replace(/:\d+:/,'').trim();
-      const series = lines[seriesIndices[i]].replace(/`\d+\]`/g, '').trim();
+      const character = lines[characterIndices[i]]
+        .replace(/\*\*/g, "")
+        .replace(/<:\w+:\d+>/, "")
+        .replace(/:\d+:/, "")
+        .trim();
+      const series = lines[seriesIndices[i]].replace(/`\d+\]`/g, "").trim();
 
       // Filter user entries for the specific series
-      const userEntries = keywords.filter(u =>
-        u.data.some(s => s.keyword.toLowerCase() === series.toLowerCase())
+      const userEntries = keywords.filter((u) =>
+        u.data.some((s) => s.keyword.toLowerCase() === series.toLowerCase())
       );
 
       if (userEntries.length === 0) continue;
 
       // Process each matching user entry
       for (const userEntry of userEntries) {
-        const seriesEntry = userEntry.data.find(s => s.keyword.toLowerCase() === series.toLowerCase());
+        const seriesEntry = userEntry.data.find(
+          (s) => s.keyword.toLowerCase() === series.toLowerCase()
+        );
         const timestamp = new Date().toLocaleString();
         const serverName = message.guild.name;
 
         // Check if the character is in the series entry
         const isCharacterBeingLookedFor =
-          seriesEntry.characters.includes(character) || seriesEntry.characters.length === 0;
+          seriesEntry.characters.includes(character) ||
+          seriesEntry.characters.length === 0;
 
         console.log(
-          '\x1b[1m\x1b[34m[Bot Message]\x1b[0m',
-          '\x1b[0m', timestamp,
-          '\x1b[1m|\x1b[32m', userEntry.user,
-          '\x1b[0m|\x1b[1m\x1b[35m', character,
-          '\x1b[0m|\x1b[1m\x1b[36m Series:\x1b[0m', series,
-          '| ', serverName,
-          isCharacterBeingLookedFor ? '\x1b[0m|\x1b[1m\x1b[33m True\x1b[0m' : '| False'
+          "\x1b[1m\x1b[34m[Bot Message]\x1b[0m",
+          "\x1b[0m",
+          timestamp,
+          "\x1b[1m|\x1b[32m",
+          userEntry.user,
+          "\x1b[0m|\x1b[1m\x1b[35m",
+          character,
+          "\x1b[0m|\x1b[1m\x1b[36m Series:\x1b[0m",
+          series,
+          "| ",
+          serverName,
+          isCharacterBeingLookedFor
+            ? "\x1b[0m|\x1b[1m\x1b[33m True\x1b[0m"
+            : "| False"
         );
 
         if (!isCharacterBeingLookedFor) continue;
         if (userEntry.isLooking === false) continue;
 
         // Fetch the member once
-        const member = await message.guild.members.fetch(userEntry.userid).catch(() => null);
+        const member = await message.guild.members
+          .fetch(userEntry.userid)
+          .catch(() => null);
 
         if (member) {
           // Compose and send a response
@@ -103,8 +132,10 @@ client.on("messageCreate", async (message) => {
           // Optional DM to the owner if configured
           if (config.dmOwnerOnCharacterFound) {
             const messageLink = `https://discord.com/channels/${message.guild.id}/${message.channel.id}/${message.id}`;
-            client.users.fetch(config.ownerId).then(owner => {
-              owner.send(`I found ${userEntry.user}'s list, **${character}** from \`${series}\`! Here is the [link](${messageLink}).`);
+            client.users.fetch(config.ownerId).then((owner) => {
+              owner.send(
+                `I found ${userEntry.user}'s list, **${character}** from \`${series}\`! Here is the [link](${messageLink}).`
+              );
             });
           }
         }
@@ -112,12 +143,18 @@ client.on("messageCreate", async (message) => {
     }
   }
 
-  const prefix = config.prefixes.find(p => message.content.toLowerCase().startsWith(p.toLowerCase()));
+  const prefix = config.prefixes.find((p) =>
+    message.content.toLowerCase().startsWith(p.toLowerCase())
+  );
   if (!prefix) {
     return;
   }
 
-  const args = message.content.slice(prefix.length).trim().match(/(?:[^\s"]+|"[^"]*")+/g).map(arg => arg.replace(/(^"|"$)/g, ''));
+  const args = message.content
+    .slice(prefix.length)
+    .trim()
+    .match(/(?:[^\s"]+|"[^"]*")+/g)
+    .map((arg) => arg.replace(/(^"|"$)/g, ""));
   const command = args.shift().toLowerCase();
 
   const userId = message.author.id;
@@ -139,11 +176,14 @@ client.on("messageCreate", async (message) => {
   );
 
   switch (command) {
-    case 'addseries':
-    case 'delseries':
-    case 'addcharacter':
-    case 'delcharacter':
-      if (userId !== config.ownerId && (!userEntry || userEntry.userid !== userId)) {
+    case "addseries":
+    case "delseries":
+    case "addcharacter":
+    case "delcharacter":
+      if (
+        userId !== config.ownerId &&
+        (!userEntry || userEntry.userid !== userId)
+      ) {
         message.reply("You don't have permission to use this command.");
         return;
       }
@@ -151,24 +191,24 @@ client.on("messageCreate", async (message) => {
   }
 
   switch (command) {
-    case 'addseries':
+    case "addseries":
       const [series, ...characters] = args.slice(1);
       const response = SeriesCommands.addSeries(user, series, characters);
-      message.reply(response);
+      sendReply(message, response);
       break;
 
-    case 'delseries':
+    case "delseries":
       const [delSeries] = args.slice(1);
       const delResponse = SeriesCommands.deleteSeries(user, delSeries);
       sendReply(message, delResponse);
       break;
 
-    case 'listseries':
+    case "listseries":
       const listResponse = SeriesCommands.listSeries(user);
       sendReply(message, listResponse);
       break;
 
-    case 'addcharacter':
+    case "addcharacter":
       const [charSeries, ...charNames] = args.slice(1);
       const addCharResponse = CharacterCommands.addCharacter(
         user,
@@ -178,33 +218,37 @@ client.on("messageCreate", async (message) => {
       sendReply(message, addCharResponse);
       break;
 
-    case 'delcharacter':
+    case "delcharacter":
       const [delCharSeries, ...delCharNames] = args.slice(1);
-      const delCharResponse = CharacterCommands.deleteCharacter(user, delCharSeries, delCharNames);
-      message.reply(delCharResponse);
+      const delCharResponse = CharacterCommands.deleteCharacter(
+        user,
+        delCharSeries,
+        delCharNames
+      );
+      sendReply(message, delCharResponse);
       break;
 
-    case 'listcharacter':
+    case "listcharacter":
       const listCharResponse = CharacterCommands.listCharacters(user, args[1]);
       sendReply(message, listCharResponse);
       break;
 
-    case 'listall':
+    case "listall":
       const listAllResponse = SeriesCommands.listSeries(user);
       sendReply(message, listAllResponse);
       break;
 
-    case 'status':
+    case "status":
       const statusResponse = Utils.status();
-      message.reply(statusResponse);
+      sendReply(message, statusResponse);
       break;
 
-    case 'help':
+    case "help":
       const helpResponse = Utils.listCommands();
-      message.reply(helpResponse);
+      sendReply(message, helpResponse);
       break;
 
-    case 'getfilter':
+    case "getfilter":
       const getFilterResponse = SeriesCommands.getFilter(user);
       sendReply(message, getFilterResponse);
       break;
@@ -226,4 +270,4 @@ client.on("messageCreate", async (message) => {
 
 client.login(config.token);
 
-console.log('\x1b[36m[Bot Startup]\x1b[0m Discord Keyword Bot is starting...');
+console.log("\x1b[36m[Bot Startup]\x1b[0m Discord Keyword Bot is starting...");
