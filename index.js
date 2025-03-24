@@ -6,6 +6,7 @@ import config from "./data/config.json" assert { type: "json" };
 import { SeriesCommands } from "./commands/series.js";
 import { CharacterCommands } from "./commands/characters.js";
 import { Utils } from "./commands/utils.js";
+import { Pagination } from "./pagination.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -41,22 +42,32 @@ client.once("ready", async () => {
   }
 });
 
-function sendReply(message, response) {
-  const maxLength = 2000;
-  if (response.length <= maxLength) {
-    message.reply(response);
+function sendReply(message, response, usePagination = false) {
+  if (usePagination) {
+    const pages = Pagination.splitContent(response);
+    const pagination = new Pagination({
+      pages: pages,
+      authorId: message.author.id,
+    });
+    return pagination.start(message);
   } else {
-    const parts = [];
-    while (response.length > 0) {
-      let part = response.slice(0, maxLength);
-      const lastNewLineIndex = part.lastIndexOf("\n");
-      if (lastNewLineIndex > -1) {
-        part = response.slice(0, lastNewLineIndex + 1);
+    // Existing code for non-paginated responses
+    const maxLength = 2000;
+    if (response.length <= maxLength) {
+      message.reply(response);
+    } else {
+      const parts = [];
+      while (response.length > 0) {
+        let part = response.slice(0, maxLength);
+        const lastNewLineIndex = part.lastIndexOf("\n");
+        if (lastNewLineIndex > -1) {
+          part = response.slice(0, lastNewLineIndex + 1);
+        }
+        parts.push(part);
+        response = response.slice(part.length);
       }
-      parts.push(part);
-      response = response.slice(part.length);
+      parts.forEach((part) => message.reply(part));
     }
-    parts.forEach((part) => message.reply(part));
   }
 }
 
@@ -215,7 +226,7 @@ client.on("messageCreate", async (message) => {
 
     case "listseries":
       const listResponse = SeriesCommands.listSeries(user);
-      sendReply(message, listResponse);
+      sendReply(message, listResponse, true);
       break;
 
     case "addcharacter":
@@ -240,12 +251,12 @@ client.on("messageCreate", async (message) => {
 
     case "listcharacter":
       const listCharResponse = CharacterCommands.listCharacters(user, args[1]);
-      sendReply(message, listCharResponse);
+      sendReply(message, listCharResponse, true); // Enable pagination
       break;
 
     case "listall":
       const listAllResponse = SeriesCommands.listSeries(user);
-      sendReply(message, listAllResponse);
+      sendReply(message, listAllResponse, true); // Enable pagination
       break;
 
     case "status":
