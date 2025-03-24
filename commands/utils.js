@@ -36,7 +36,7 @@ class Utils {
     const configPath = path.join(__dirname, "../data/config.json");
     const config = JSON.parse(fs.readFileSync(configPath));
     const renewTime = new Date(
-      Date.now() + 4 * 24 * 60 * 60 * 1000
+      (Date.now() + 4 * 24 * 60 * 60 * 1000) - (12 * 60 * 60 * 1000)
     ).toISOString();
     config.renew = renewTime;
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
