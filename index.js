@@ -18,7 +18,7 @@ const client = new Client({
   ],
 });
 
-client.once("ready", () => {
+client.once("ready", async () => {
   console.log(`\x1b[32m[Bot Status]\x1b[0m Logged in as ${client.user.tag}`);
   client.user.setPresence({
     status: "online",
@@ -29,6 +29,16 @@ client.once("ready", () => {
       },
     ],
   });
+
+  const configPath = path.join(__dirname, "./data/config.json");
+  const config = JSON.parse(fs.readFileSync(configPath));
+  const renewTime = new Date(config.renew);
+  const currentTime = new Date();
+
+  if (currentTime >= renewTime) {
+    const owner = await client.users.fetch(config.ownerId);
+    owner.send("Master, it's time to renew!");
+  }
 });
 
 function sendReply(message, response) {
@@ -159,7 +169,7 @@ client.on("messageCreate", async (message) => {
 
   const userId = message.author.id;
   const user = args[0] === "me" ? userId : args[0];
-  
+
   try {
     if (user !== "") {
       user = user.toLowerCase();
@@ -257,6 +267,24 @@ client.on("messageCreate", async (message) => {
       const getFilterCharacterResponse =
         SeriesCommands.getFilterCharacter(user);
       sendReply(message, getFilterCharacterResponse);
+      break;
+
+    case "setrenew":
+      if (userId !== config.ownerId) {
+        message.reply("You don't have permission to use this command.");
+        return;
+      }
+      const setRenewResponse = Utils.setrenew();
+      sendReply(message, setRenewResponse);
+      break;
+
+    case "getrenewtime":
+      if (userId !== config.ownerId) {
+        message.reply("You don't have permission to use this command.");
+        return;
+      }
+      const getRenewTimeResponse = Utils.getRenewTime();
+      sendReply(message, getRenewTimeResponse);
       break;
 
     default:
