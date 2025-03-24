@@ -7,16 +7,28 @@ const __dirname = path.dirname(__filename);
 class Utils {
   static listCommands() {
     return `
-**Commands:**
-- \`addseries <user> <series> <characters>\` - Add series and characters to the list
-- \`delseries <user> <series>\` - Delete series from the list
-- \`listseries <user>\` - List all series and characters
-- \`addcharacter <user> <series> <characters>\` - Add characters to the series
-- \`delcharacter <user> <series> <characters>\` - Delete characters from the series
-- \`listcharacter <user> <series>\` - List all characters from the series
-- \`listall <user>\` - List all series and characters
-- \`status\` - Show the status of the bot
-- \`help\` - Show this help message
+# 📚 NoriHelper Command Guide 📚
+
+## 🔍 Series Commands
+• \`addseries <user> <series> [characters...]\` - Add a series with optional characters
+• \`delseries <user> <series>\` - Remove a series from tracking
+• \`listseries <user>\` - View all tracked series with their characters
+• \`listall <user>\` - Display complete series collection
+
+## 👤 Character Commands
+• \`addcharacter <user> <series> <characters...>\` - Add specific characters to track
+• \`delcharacter <user> <series> <characters...>\` - Remove characters from tracking
+• \`listcharacter <user> <series>\` - View all characters in a specific series
+
+## ⚙️ Filter Commands
+• \`getfilter <user>\` - Get series filter for copy/paste
+• \`getfiltercharacter <user>\` - Get character filter for copy/paste
+
+## 📊 System Commands
+• \`status\` - Check bot status and uptime
+• \`help\` - Display this command guide
+
+> **Tip:** Replace \`<user>\` with "me" to target yourself.
 `;
   }
 
@@ -28,18 +40,34 @@ class Utils {
     ).toISOString();
     config.renew = renewTime;
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-    return `Renew time set to <t:${renewTime.toFixed(0)}:R>`;
+    
+    const renewDate = Math.floor(new Date(renewTime).getTime() / 1000);
+    return `✅ **Renewal Updated!**\n\nNext renewal scheduled for <t:${renewDate}:F> (<t:${renewDate}:R>)`;
   }
 
   static getRenewTime() {
     const configPath = path.join(__dirname, "../data/config.json");
     const config = JSON.parse(fs.readFileSync(configPath));
-    const renewTime = new Date(config.renew).getTime() / 1000;
-    return `Current renew time is <t:${renewTime.toFixed(0)}:R>`;
+    const renewTime = Math.floor(new Date(config.renew).getTime() / 1000);
+    return `🕒 **Renewal Schedule**\n\nNext renewal due <t:${renewTime}:F> (<t:${renewTime}:R>)`;
   }
 
   static status() {
-    return `Bot is online and ready to serve!`;
+    const uptime = process.uptime();
+    const days = Math.floor(uptime / 86400);
+    const hours = Math.floor((uptime % 86400) / 3600);
+    const minutes = Math.floor((uptime % 3600) / 60);
+    const seconds = Math.floor(uptime % 60);
+    
+    return `
+## 🟢 NoriHelper Status
+
+**Version:** \`1.3.2\`
+**Status:** Online 
+**Uptime:** \`${days}d ${hours}h ${minutes}m ${seconds}s\`
+
+Virgo ready to serve!
+`;
   }
 }
 

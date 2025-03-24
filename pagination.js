@@ -8,55 +8,68 @@ import {
 export class Pagination {
   constructor(options = {}) {
     this.pages = options.pages || [];
-    this.timeout = options.timeout || 60000; // Default timeout: 1 minute
+    this.timeout = options.timeout || 120000; // Extended timeout: 2 minutes
     this.currentPage = 0;
     this.message = null;
     this.authorId = options.authorId;
     this.collector = null;
+    this.title = options.title || "Results";
+    this.color = options.color || "#0099ff";
   }
 
-  // Create embed for the current page
+  // Create embed for the current page with enhanced styling
   createEmbed() {
     const embed = new EmbedBuilder()
-      .setColor("#0099ff")
+      .setColor(this.color)
       .setDescription(this.pages[this.currentPage])
       .setFooter({
-        text: `Page ${this.currentPage + 1} of ${this.pages.length}`,
-      });
+        text: `Page ${this.currentPage + 1} of ${this.pages.length} • Navigation expires in 2 minutes`,
+        iconURL: "https://i.imgur.com/AfFp7pu.png", // Optional bot icon
+      })
+      .setTimestamp();
+      
     return embed;
   }
 
-  // Create navigation buttons
+  // Create navigation buttons with improved labels
   createButtons() {
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId("first")
-        .setLabel("⏮️")
-        .setStyle(ButtonStyle.Primary)
+        .setLabel("First")
+        .setEmoji("⏮️")
+        .setStyle(ButtonStyle.Secondary)
         .setDisabled(this.currentPage === 0),
       new ButtonBuilder()
         .setCustomId("previous")
-        .setLabel("◀️")
+        .setLabel("Previous")
+        .setEmoji("◀️") 
         .setStyle(ButtonStyle.Primary)
         .setDisabled(this.currentPage === 0),
       new ButtonBuilder()
         .setCustomId("next")
-        .setLabel("▶️")
+        .setLabel("Next")
+        .setEmoji("▶️")
         .setStyle(ButtonStyle.Primary)
         .setDisabled(this.currentPage === this.pages.length - 1),
       new ButtonBuilder()
         .setCustomId("last")
-        .setLabel("⏭️")
-        .setStyle(ButtonStyle.Primary)
+        .setLabel("Last")
+        .setEmoji("⏭️")
+        .setStyle(ButtonStyle.Secondary)
         .setDisabled(this.currentPage === this.pages.length - 1)
     );
     return row;
   }
 
-  // Start pagination
+  // Start pagination with enhanced messaging
   async start(message) {
     if (this.pages.length === 0)
-      return message.reply("No content to paginate.");
+      return message.reply({ 
+        content: "❌ No content to display.",
+        ephemeral: true 
+      });
+      
     if (this.pages.length === 1) {
       // If only one page, just send without buttons
       return message.reply({ embeds: [this.createEmbed()] });
@@ -101,38 +114,56 @@ export class Pagination {
     });
 
     this.collector.on("end", () => {
-      // Remove buttons when collector ends
+      // Update message to show navigation has expired
       if (this.message) {
-        this.message.edit({ components: [] }).catch(() => {});
+        const expiredEmbed = EmbedBuilder.from(this.message.embeds[0])
+          .setFooter({ 
+            text: `Page ${this.currentPage + 1} of ${this.pages.length} • Navigation expired`,
+            iconURL: "https://i.imgur.com/AfFp7pu.png"
+          })
+          .setColor("#6e6e6e"); // Grayed out color
+          
+        this.message.edit({ 
+          embeds: [expiredEmbed], 
+          components: []
+        }).catch(() => {});
       }
     });
 
     return this.message;
   }
 
-  // Split content into pages
+  // Split content into pages with improved formatting
   static splitContent(content, maxLength = 750) {
+    // If content is already an array, use it directly
+    const contentArray = Array.isArray(content) ? content : [content];
     const pages = [];
 
-    if (content.length <= maxLength) {
-      pages.push(content);
-      return pages;
-    }
-
-    // Split by newlines for better readability
-    const lines = content.split("\n");
-    let currentPage = "";
-
-    for (const line of lines) {
-      if (currentPage.length + line.length + 1 > maxLength) {
-        pages.push(currentPage);
-        currentPage = line;
-      } else {
-        currentPage += (currentPage ? "\n" : "") + line;
+    for (const block of contentArray) {
+      if (block.length <= maxLength) {
+        pages.push(block);
+        continue;
       }
+
+      // Split by newlines for better readability
+      const lines = block.split("\n");
+      let currentPage = "";
+
+      for (const line of lines) {
+        // If this is a heading, try to keep it with content
+        const isHeading = line.startsWith('#') || line.startsWith('##');
+        
+        if (currentPage.length + line.length + 1 > maxLength && !isHeading) {
+          pages.push(currentPage);
+          currentPage = line;
+        } else {
+          currentPage += (currentPage ? "\n" : "") + line;
+        }
+      }
+
+      if (currentPage) pages.push(currentPage);
     }
 
-    if (currentPage) pages.push(currentPage);
     return pages;
   }
 }
