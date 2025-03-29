@@ -180,7 +180,7 @@ client.on("messageCreate", async (message) => {
 
   const userId = message.author.id;
   let user = args[0]
-
+  console.log(user);
   try {
     if (user !== "") {
       user = user.toLowerCase();
@@ -188,7 +188,7 @@ client.on("messageCreate", async (message) => {
   } catch (error) {
     // console.log(error);
   }
-  user = user === "me" || "" || " " ? userId : args[0];
+  user = user === "me" || user === "" || user === " " ? userId : args[0];
 
   const keywords = JSON.parse(
     fs.readFileSync(path.join(__dirname, "./data/keywords.json"))
