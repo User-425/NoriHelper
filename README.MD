@@ -1,3 +1,7 @@
+> **Disclaimer**:  This project is currently on hold, as Nori ended on October 14, 2025. It may be revived in the future if suitable resources such as OCR or other resources found.
+
+[Announcement](https://github.com/User-425/NoriHelper/blob/main/img/announcement.png)
+
 # NoriHelper
 
 NoriHelper is a personal assistant bot for Discord that helps manage series and characters for users. It provides commands to add, delete, and list series and characters.
